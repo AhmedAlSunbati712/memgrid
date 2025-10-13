@@ -1,7 +1,26 @@
 import numpy as np
 
 class GridEncoder:
+    """
+    Description: A GridEncoder models grid-cell-like spatial encoding by projecting 2D input coordinates 
+                onto multiple periodic grids defined by modules, orientations, and phase shifts.
+    """
     def __init__(self, n_modules=3, n_orientations=3, n_cells_per_orientation=5, scales=None):
+        """
+        Description: Initializes the GridEncoder with a specified number of modules, orientations 
+                     and cells per orientation. Each module corresponds to a distinct spatial frequency,
+                     and each orientation corresponds to a direction in the 2D plane.
+                     Random phase shifts are used to differentiate grid cells within each module.
+
+        ========= Parameters =========
+        @param n_modules: Number of grid modules.
+        @param n_orientations: Number of orientations per module.
+        @param n_cells_per_orientation: Number of grid cells per orientation direction.
+        @param scales: Custom list of scales for each module.
+
+        ========= Returns =========
+        @return None
+        """
         self.n_modules = n_modules
         self.n_orientations = n_orientations
         self.n_cells_per_orientation = n_cells_per_orientation
@@ -19,6 +38,16 @@ class GridEncoder:
         self.phases = 2 * np.pi * np.random.rand(n_modules, n_orientations, n_cells_per_orientation) 
     
     def encode(self, x):
+        """
+        Description: Encodes a 2D input position into a high-dimensional representation
+        based on periodic grid-cell-like responses.
+
+        ========= Parameters =========
+        @param x: 2D input position.
+
+        ========= Returns =========
+        @return encoded: Encoded grid-cell representation with shape (1, 2 * n_modules * n_orientations * n_cells_per_orientation).
+        """
         outputs = []
         for m, f in enumerate(self.scales):
             for o, k in enumerate(self.orientations):
