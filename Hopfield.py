@@ -1,7 +1,7 @@
 from utils.activation_functions import tanh, sgn
 from utils.metrix import similarity
 import numpy as np
-class Hopfield:
+class HopfieldNetwork:
     def __init__(self, activation_function=sgn, n_neurons=10):
         self.activation_function = activation_function
         self.n_neurons = n_neurons
