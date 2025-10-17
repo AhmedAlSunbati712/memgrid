@@ -1,6 +1,6 @@
 from math import e
 
-def tanh(x):
+def tanh(x, beta):
     return (e**(x) - e**(-x))/(e**(x) + e**(-x))
 def sgn(x):
     if x == 0: return 0
