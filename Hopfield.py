@@ -40,7 +40,8 @@ class Hopfield:
             return
 
         x = X.reshape(-1)
-        self.W += np.outer(x, x)
+        self.W += np.outer(x, x) / self.n_neurons
+
         np.fill_diagonal(self.W, 0)
         self.stored_patterns.append(x.copy())
     def asynchrous_update(self, state, i):
@@ -96,7 +97,6 @@ class Hopfield:
                 state = self.asynchrous_update(state, i)
         
         similarities = [similarity(state, p) for p in self.stored_patterns]
-        print(similarities)
         closest_pattern = self.stored_patterns[np.argmax(similarities)]
         return state, closest_pattern
 
