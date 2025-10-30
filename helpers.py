@@ -54,3 +54,13 @@ def binarize_image(X):
     # map 0 → -1, 1 → +1
     state = state * 2 - 1
     return state
+
+def normalize_image(X):
+    if isinstance(X, list):
+        return [normalize_image(state) for state in X]
+    
+    pattern = X
+    pattern = pattern - np.mean(pattern)
+    # Optional: scale to [-1, 1]
+    pattern = pattern / np.max(np.abs(pattern))
+    return pattern

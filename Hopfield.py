@@ -22,6 +22,7 @@ class Hopfield:
         self.n_neurons = n_neurons
         self.stored_patterns = []
         self.W = np.zeros((self.n_neurons, self.n_neurons))
+        
     def bind(self, X):
         """
         Description: Stores a pattern (or multiple patterns) in the Hopfield network using Hebbian learning.
@@ -72,7 +73,11 @@ class Hopfield:
         """
         state = self.activation_function(np.dot(self.W, state))
         return state
-    def retrieve(self, state, synchrous=True, n_iterations=10):
+    def synchrous_update_continous(self, state, alpha=0.1, beta = 1):
+        h = np.dot(self.W, state)
+        new_state = (1 - alpha) * state + alpha * self.activation_function(h, beta)
+        return new_state
+    def retrieve(self, state, synchrous=True, n_iterations=10, beta = 1):
         """
         Description: Retrieves a stored pattern from the network starting from an initial state.
                      Can perform either synchronous or asynchronous updates for a specified number of iterations.
@@ -90,7 +95,7 @@ class Hopfield:
         state = state.copy()
         for _ in range(n_iterations):
             if synchrous:
-                state = self.synchrous_update(state)
+                state = self.synchrous_update_continous(state, alpha=0.05, beta = beta)
             else:
                 # choose a random neuron index each time
                 i = np.random.randint(0, self.n_neurons)
