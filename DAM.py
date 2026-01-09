@@ -1,14 +1,14 @@
 import numpy as np
 
 class DenseAssociativeMemory:
-    def __init__(self, patterns, n=4, beta=5.0, alpha=0.1):
+    def __init__(self, patterns, n=4, beta=5.0, alpha=0.1, lmbda=0.0):
         """
         Description: Initializes a DAM model with the given patterns, energy order, temperature paramter beta,
                      and learning rate alpha.
         =============== Parameters ================
         @param patterns: stored patterns (#patterns x N), where N is the number of neurons in the network.
         @param n: Order of the energy function (use n>2 for dense associative memory).
-        @param beta: Tempearture paramter for network updats. Gain for tanh in continuous update.
+        @param beta: Tempearture paramter for network updates. Gain for tanh in continuous update.
         @param alpha: Relaxation paramater for updates (0 < alpha <= 1)
         """
         self.patterns = np.array(patterns)
@@ -16,7 +16,15 @@ class DenseAssociativeMemory:
         self.n = n
         self.beta = beta
         self.alpha = alpha
+        self.lmbda = lmbda
+    def energy(self, state):
+        """Compute DAM energy: - sum_mu F(pattern_mu · state)"""
+        projs = self.patterns @ state
+        mem_term = -np.sum(self.F(projs))
+        reg_term = (self.lmbda/2.0) * np.sum(state**2)
 
+
+        return mem_term + reg_term
     def F(self, x):
         """
         Description: Rectified polynomial function to be used in energy calculations of the network.
@@ -84,12 +92,7 @@ class DenseAssociativeMemory:
         best = self.patterns[np.argmax(sims)]
 
         return state, best, energy_trace, similarity_trace
-    def energy(self, state):
-        """Compute DAM energy: - sum_mu F(pattern_mu · state)"""
-        projs = self.patterns @ state
-        mem_term = -np.sum(self.F(projs))
 
-        return mem_term
 
     def update_neuron_differential(self, state, i):
         """
@@ -109,8 +112,10 @@ class DenseAssociativeMemory:
         # Get the i-th column of patterns (all xi_i^mu)
         xi_column = self.patterns[:, i] # (K,) vector of (xi_i^mu)
         
+        mem_field = np.dot(xi_column, F_primes)
+        reg_field = self.lmbda * s_i
         # h_i = sum_mu (xi_i^mu * F'(P_mu))
-        local_field = np.dot(xi_column, F_primes)
+        local_field = mem_field - reg_field
 
         # The target value is the tanh of the local field
         new_val = np.tanh(self.beta * local_field)
