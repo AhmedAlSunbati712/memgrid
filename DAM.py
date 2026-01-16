@@ -22,7 +22,8 @@ class DenseAssociativeMemory:
         projs = self.patterns @ state
         mem_term = -np.sum(self.F(projs))
         reg_term = (self.lmbda/2.0) * np.sum(state**2)
-
+        print("mem_term: ", mem_term)
+        print("reg_term: ", reg_term)
 
         return mem_term + reg_term
     def F(self, x):
