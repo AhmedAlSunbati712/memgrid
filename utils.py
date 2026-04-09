@@ -14,7 +14,13 @@ N_MODULES = 4
 BASE_FREQ = 0.5
 N_ORIENTATIONS = 3
 N_CELLS_PER_ORI = 4
-def create_multiscale_encoder(scale_factor, n_modules=N_MODULES, base_freq=BASE_FREQ):
+def create_multiscale_encoder(
+    scale_factor,
+    n_modules=N_MODULES,
+    base_freq=BASE_FREQ,
+    n_orientations=N_ORIENTATIONS,
+    n_cells_per_orientation=N_CELLS_PER_ORI,
+):
     """
     Create GridEncoder with specified scale factor c.
     
@@ -36,9 +42,9 @@ def create_multiscale_encoder(scale_factor, n_modules=N_MODULES, base_freq=BASE_
     scales = base_freq * (scale_factor ** np.arange(n_modules))
     return GridEncoder(
         n_modules=n_modules,
-        n_orientations=N_ORIENTATIONS,
-        n_cells_per_orientation=N_CELLS_PER_ORI,
-        scales=scales
+        n_orientations=n_orientations,
+        n_cells_per_orientation=n_cells_per_orientation,
+        scales=scales,
     )
 
 def create_single_scale_encoder(scale, n_orientations=3, n_cells=5):
