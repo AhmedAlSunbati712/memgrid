@@ -31,7 +31,10 @@ class GridEncoder:
         self.orientations = np.stack([np.cos(angles), np.sin(angles)], axis=1) # A (n_orientations, 2) matrix. Each row is a unit orientation vector
         
         # Scales for each module
-        self.scales = scales or np.sqrt(np.e) ** np.arange(n_modules)
+        if scales is None:
+            self.scales = np.sqrt(np.e) ** np.arange(n_modules)
+        else:
+            self.scales = np.asarray(scales)
         
         # Random phase shifts
         # P cells per orientation, O orientations per module, and M modules (M, O, P) matrix.
@@ -43,17 +46,21 @@ class GridEncoder:
         based on periodic grid-cell-like responses.
 
         ========= Parameters =========
-        @param x: 2D input position.
+        @param x: 2D input position, shape (2,) or (N, 2) for batch.
 
         ========= Returns =========
-        @return encoded: Encoded grid-cell representation with shape (1, 2 * n_modules * n_orientations * n_cells_per_orientation).
+        @return encoded: Encoded grid-cell representation.
+            - If x is (2,): returns shape (2 * n_modules * n_orientations * n_cells_per_orientation,)
+            - If x is (N, 2): returns shape (N, 2 * n_modules * n_orientations * n_cells_per_orientation)
         """
+        x = np.atleast_2d(x)  # Ensure x is 2D: (N, 2)
         outputs = []
         for m, f in enumerate(self.scales):
             for o, k in enumerate(self.orientations):
-                proj = 2 * np.pi * f * (x @ k)
+                proj = 2 * np.pi * f * (x @ k)  # Shape: (N,)
                 for p in range(self.n_cells_per_orientation):
                     phi = self.phases[m, o, p]
-                    outputs.append(np.cos(proj + phi))
-                    outputs.append(np.sin(proj + phi))
-        return np.concatenate(outputs, axis=1)
+                    outputs.append(np.cos(proj + phi).reshape(-1, 1))  # Shape: (N, 1)
+                    outputs.append(np.sin(proj + phi).reshape(-1, 1))  # Shape: (N, 1)
+        result = np.concatenate(outputs, axis=1)  # Shape: (N, encoding_dim)
+        return result.squeeze() if result.shape[0] == 1 else result
