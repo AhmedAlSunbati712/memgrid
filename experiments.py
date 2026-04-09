@@ -1,7 +1,13 @@
 import numpy as np
-from Encoder import create_single_scale_encoder
 from DAM import SilentDAM
-from utils import encode_points, encode_single_point, find_nearest_encoded, cosine
+from utils import (
+    cosine,
+    create_single_scale_encoder,
+    encode_points,
+    encode_single_point,
+    find_nearest_encoded,
+    find_nearest_neighbor_2d,
+)
 
 def identification_experiment(scales, n_values, K_values, noise_level=0.1,
                                num_trials=5, steps_multiplier=20,

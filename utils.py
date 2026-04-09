@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from DAM import DenseAssociativeMemory
 import seaborn as sns
 import warnings
 from Encoder import GridEncoder
@@ -78,16 +77,8 @@ def encode_single_point(encoder, point_2d):
     Returns:
     ndarray of shape (N,) where N is the encoder output dimension
     """
-    point = point_2d.flatten()  # Ensure shape (2,)
-    outputs = []
-    for m, f in enumerate(encoder.scales):
-        for o, k in enumerate(encoder.orientations):
-            proj = 2 * np.pi * f * np.dot(point, k)
-            for p in range(encoder.n_cells_per_orientation):
-                phi = encoder.phases[m, o, p]
-                outputs.append(np.cos(proj + phi))
-                outputs.append(np.sin(proj + phi))
-    return np.array(outputs)
+    # Delegate to the encoder to keep one canonical implementation.
+    return np.asarray(encoder.encode(np.asarray(point_2d).reshape(2,)))
 
 def encode_points(encoder, points_2d):
     """
@@ -102,11 +93,7 @@ def encode_points(encoder, points_2d):
     Returns:
     ndarray of shape (K, N) where N is the encoder output dimension
     """
-    encoded = []
-    for point in points_2d:
-        enc = encode_single_point(encoder, point)
-        encoded.append(enc)
-    return np.array(encoded)
+    return np.asarray(encoder.encode(np.asarray(points_2d)))
 
 def find_nearest_neighbor_2d(query_2d, stored_2d_points):
     """
@@ -132,8 +119,7 @@ def find_nearest_cosine(query, stored_patterns):
     
 def find_nearest_euclidean_2d(query_2d, stored_2d):
     """Find index of nearest pattern in 2D space (Euclidean distance)."""
-    distances = np.linalg.norm(stored_2d - query_2d, axis=1)
-    return np.argmin(distances)
+    return find_nearest_neighbor_2d(query_2d, stored_2d)
 
 
 def find_nearest_encoded(query_encoded, stored_encoded):

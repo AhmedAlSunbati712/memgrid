@@ -1,7 +1,7 @@
 import numpy as np
 
 class DenseAssociativeMemory:
-    def __init__(self, patterns, n=4, beta=5.0, alpha=0.1, lmbda=0.0):
+    def __init__(self, patterns, n=4, beta=5.0, alpha=0.1, lmbda=0.0, verbose=False):
         """
         Description: Initializes a DAM model with the given patterns, energy order, temperature paramter beta,
                      and learning rate alpha.
@@ -17,13 +17,15 @@ class DenseAssociativeMemory:
         self.beta = beta
         self.alpha = alpha
         self.lmbda = lmbda
+        self.verbose = verbose
     def energy(self, state):
         """Compute DAM energy: - sum_mu F(pattern_mu · state)"""
         projs = self.patterns @ state
         mem_term = -np.sum(self.F(projs))
         reg_term = (self.lmbda/2.0) * np.sum(state**2)
-        print("mem_term: ", mem_term)
-        print("reg_term: ", reg_term)
+        if self.verbose:
+            print("mem_term: ", mem_term)
+            print("reg_term: ", reg_term)
 
         return mem_term + reg_term
     def F(self, x):
@@ -148,3 +150,11 @@ class DenseAssociativeMemory:
         best = self.patterns[np.argmax(sims)]
 
         return state, best, energy_trace, similarity_trace
+
+
+class SilentDAM(DenseAssociativeMemory):
+    """
+    Backward-compatible alias used by experiments to ensure quiet energy calls.
+    """
+    def __init__(self, patterns, n=4, beta=5.0, alpha=0.1, lmbda=0.0):
+        super().__init__(patterns, n=n, beta=beta, alpha=alpha, lmbda=lmbda, verbose=False)
