@@ -45,6 +45,94 @@ def test_dam_retrieve_differential_smoke():
     assert isinstance(similarity_trace, list)
 
 
+def test_dam_retrieve_differential_default_contract_4tuple():
+    np.random.seed(70)
+    patterns = np.random.uniform(-1, 1, (4, 10))
+    dam = DenseAssociativeMemory(patterns, n=3, beta=0.03, alpha=0.5, lmbda=0.0, verbose=False)
+    noisy = patterns[1] + np.random.normal(0, 0.01, size=patterns.shape[1])
+    out = dam.retrieve_differential(noisy, steps=25)
+    assert isinstance(out, tuple)
+    assert len(out) == 4
+    state, best, energy_trace, similarity_trace = out
+    assert state.shape == (10,)
+    assert best.shape == (10,)
+    assert isinstance(energy_trace, list)
+    assert isinstance(similarity_trace, list)
+
+
+def test_dam_retrieve_differential_optional_best_idx_5tuple():
+    np.random.seed(71)
+    patterns = np.random.uniform(-1, 1, (5, 12))
+    dam = DenseAssociativeMemory(patterns, n=4, beta=0.02, alpha=0.4, lmbda=0.0, verbose=False)
+    noisy = patterns[0] + np.random.normal(0, 0.02, size=patterns.shape[1])
+    out = dam.retrieve_differential(
+        noisy,
+        steps=40,
+        return_best_idx=True,
+    )
+    assert isinstance(out, tuple)
+    assert len(out) == 5
+    state, best, energy_trace, similarity_trace, best_idx = out
+    assert state.shape == (12,)
+    assert best.shape == (12,)
+    assert isinstance(energy_trace, list)
+    assert isinstance(similarity_trace, list)
+    assert isinstance(best_idx, int)
+    assert 0 <= best_idx < patterns.shape[0]
+
+
+def test_dam_numpy_numba_backend_parity_with_fixed_update_indices():
+    np.random.seed(72)
+    patterns = np.random.uniform(-1, 1, (6, 14))
+    dam = DenseAssociativeMemory(patterns, n=4, beta=0.02, alpha=0.5, lmbda=0.0, verbose=False)
+    noisy = patterns[2] + np.random.normal(0, 0.01, size=patterns.shape[1])
+    steps = 120
+    update_indices = np.random.randint(0, patterns.shape[1], size=steps)
+
+    state_np, _, _, _, best_np = dam.retrieve_differential(
+        noisy,
+        steps=steps,
+        update_indices=update_indices,
+        trace_every=0,
+        backend="numpy",
+        return_best_idx=True,
+    )
+    state_nb, _, _, _, best_nb = dam.retrieve_differential(
+        noisy,
+        steps=steps,
+        update_indices=update_indices,
+        trace_every=0,
+        backend="numba",
+        return_best_idx=True,
+    )
+    assert best_np == best_nb
+    assert np.allclose(state_np, state_nb, rtol=1e-7, atol=1e-7)
+
+
+def test_dam_retrieve_differential_invalid_backend_raises():
+    np.random.seed(73)
+    patterns = np.random.uniform(-1, 1, (3, 8))
+    dam = DenseAssociativeMemory(patterns, n=3, beta=0.05, alpha=0.4, lmbda=0.0, verbose=False)
+    noisy = patterns[0] + np.random.normal(0, 0.01, size=patterns.shape[1])
+    try:
+        dam.retrieve_differential(noisy, steps=10, backend="bogus")
+        assert False, "Expected ValueError for invalid backend"
+    except ValueError as exc:
+        assert "Unknown backend" in str(exc)
+
+
+def test_dam_numba_backend_requires_trace_every_zero():
+    np.random.seed(74)
+    patterns = np.random.uniform(-1, 1, (3, 8))
+    dam = DenseAssociativeMemory(patterns, n=3, beta=0.05, alpha=0.4, lmbda=0.0, verbose=False)
+    noisy = patterns[0] + np.random.normal(0, 0.01, size=patterns.shape[1])
+    try:
+        dam.retrieve_differential(noisy, steps=10, backend="numba", trace_every=10)
+        assert False, "Expected ValueError when trace_every > 0 for numba backend"
+    except ValueError as exc:
+        assert "trace_every=0" in str(exc)
+
+
 def test_silent_dam_energy_smoke():
     np.random.seed(8)
     patterns = np.random.uniform(-1, 1, (2, 6))

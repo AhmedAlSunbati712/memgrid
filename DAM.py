@@ -1,4 +1,32 @@
 import numpy as np
+from numba import njit
+
+
+@njit(cache=True)
+def _numba_retrieve_core(patterns, state, projs, update_indices, n_order, beta, alpha, lmbda):
+    """In-place differential retrieval with incremental projection updates."""
+    K = patterns.shape[0]
+    n_minus_one = n_order - 1
+
+    for t in range(update_indices.shape[0]):
+        i = update_indices[t]
+        s_i = state[i]
+
+        mem_field = 0.0
+        for mu in range(K):
+            proj = projs[mu]
+            if proj > 0.0:
+                fp = n_order * (proj ** n_minus_one)
+                mem_field += patterns[mu, i] * fp
+
+        local_field = mem_field - lmbda * s_i
+        new_val = np.tanh(beta * local_field)
+        s_new = (1.0 - alpha) * s_i + alpha * new_val
+
+        delta = s_new - s_i
+        state[i] = s_new
+        for mu in range(K):
+            projs[mu] += patterns[mu, i] * delta
 
 class DenseAssociativeMemory:
     def __init__(self, patterns, n=4, beta=5.0, alpha=0.1, lmbda=0.0, verbose=False):
@@ -11,16 +39,21 @@ class DenseAssociativeMemory:
         @param beta: Tempearture paramter for network updates. Gain for tanh in continuous update.
         @param alpha: Relaxation paramater for updates (0 < alpha <= 1)
         """
-        self.patterns = np.array(patterns)
+        self.patterns = np.asarray(patterns, dtype=float)
         self.K, self.N = self.patterns.shape # Number of patterns and number of neurons respectively
         self.n = n
         self.beta = beta
         self.alpha = alpha
         self.lmbda = lmbda
         self.verbose = verbose
+        self.pattern_norms = np.linalg.norm(self.patterns, axis=1) + 1e-12
     def energy(self, state):
         """Compute DAM energy: - sum_mu F(pattern_mu · state)"""
         projs = self.patterns @ state
+        return self.energy_from_projs(projs, state)
+
+    def energy_from_projs(self, projs, state):
+        """Compute DAM energy from precomputed projections."""
         mem_term = -np.sum(self.F(projs))
         reg_term = (self.lmbda/2.0) * np.sum(state**2)
         if self.verbose:
@@ -127,29 +160,97 @@ class DenseAssociativeMemory:
         state[i] = (1.0 - self.alpha) * s_i + self.alpha * new_val
 
         return state
-    def retrieve_differential(self, noisy_state, steps=500):
-        state = noisy_state.copy()
+    def _compute_similarity_trace_row(self, state):
+        state_norm = np.linalg.norm(state) + 1e-12
+        return (self.patterns @ state) / (self.pattern_norms * state_norm)
+
+    def _prepare_update_indices(self, steps, update_indices):
+        if update_indices is None:
+            return np.random.randint(0, self.N, size=steps, dtype=np.int64)
+        indices = np.asarray(update_indices, dtype=np.int64)
+        if indices.shape[0] != steps:
+            raise ValueError(
+                f"update_indices length ({indices.shape[0]}) must equal steps ({steps})"
+            )
+        return indices
+
+    def _retrieve_differential_numpy(self, state, steps, update_indices, trace_every):
         energy_trace = []
         similarity_trace = []
+        projs = self.patterns @ state
 
-        for _ in range(steps):
-            # Asynchronous update
-            i = np.random.randint(0, self.N)
-            state = self.update_neuron_differential(state, i)
-            
-            # Optional: Track metrics every few steps (e.g., every N steps)
-            # This can be slow inside the loop
-            if _ % 10 == 0:
-                current_iteration_similarity = [np.dot(state, p) / (np.linalg.norm(state) * np.linalg.norm(p) + 1e-12) for p in self.patterns]
-                similarity_trace.append(current_iteration_similarity)
-                energy_trace.append(self.energy(state))
-        
-        # Final similarity check
-        sims = [np.dot(state, p) / (np.linalg.norm(state) * np.linalg.norm(p) + 1e-12)
-                for p in self.patterns]
-        best = self.patterns[np.argmax(sims)]
+        for t in range(steps):
+            i = int(update_indices[t])
+            s_i = state[i]
 
-        return state, best, energy_trace, similarity_trace
+            f_primes = self.F_prime(projs)
+            xi_column = self.patterns[:, i]
+            mem_field = float(np.dot(xi_column, f_primes))
+            local_field = mem_field - self.lmbda * s_i
+            new_val = np.tanh(self.beta * local_field)
+            s_new = (1.0 - self.alpha) * s_i + self.alpha * new_val
+
+            delta = s_new - s_i
+            state[i] = s_new
+            projs = projs + xi_column * delta
+
+            if trace_every > 0 and (t % trace_every == 0):
+                similarity_trace.append(self._compute_similarity_trace_row(state).tolist())
+                energy_trace.append(float(self.energy_from_projs(projs, state)))
+
+        sims = self._compute_similarity_trace_row(state)
+        best_idx = int(np.argmax(sims))
+        best = self.patterns[best_idx]
+        return state, best, energy_trace, similarity_trace, best_idx
+
+    def _retrieve_differential_numba(self, state, steps, update_indices, trace_every):
+        if trace_every > 0:
+            raise ValueError("backend='numba' currently requires trace_every=0")
+
+        state = np.asarray(state, dtype=np.float64).copy()
+        patterns = np.ascontiguousarray(self.patterns, dtype=np.float64)
+        projs = patterns @ state
+        _numba_retrieve_core(
+            patterns,
+            state,
+            projs,
+            np.ascontiguousarray(update_indices, dtype=np.int64),
+            int(self.n),
+            float(self.beta),
+            float(self.alpha),
+            float(self.lmbda),
+        )
+        sims = self._compute_similarity_trace_row(state)
+        best_idx = int(np.argmax(sims))
+        best = self.patterns[best_idx]
+        return state, best, [], [], best_idx
+
+    def retrieve_differential(
+        self,
+        noisy_state,
+        steps=500,
+        update_indices=None,
+        trace_every=10,
+        backend="numpy",
+        return_best_idx=False,
+    ):
+        state = np.asarray(noisy_state, dtype=float).copy()
+        update_indices = self._prepare_update_indices(steps, update_indices)
+
+        if backend == "numpy":
+            result = self._retrieve_differential_numpy(
+                state, steps, update_indices, trace_every
+            )
+        elif backend == "numba":
+            result = self._retrieve_differential_numba(
+                state, steps, update_indices, trace_every
+            )
+        else:
+            raise ValueError(f"Unknown backend '{backend}'. Expected 'numpy' or 'numba'.")
+
+        if return_best_idx:
+            return result
+        return result[:4]
 
 
 class SilentDAM(DenseAssociativeMemory):

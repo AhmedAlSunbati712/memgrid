@@ -39,7 +39,8 @@ def _multiscale_encoding_dim(n_modules, n_orientations, n_cells_per_orientation)
 
 def identification_experiment(scales, n_values, K_values, noise_level=0.1,
                                num_trials=5, steps_multiplier=20,
-                               n_orientations=3, n_cells=5):
+                               n_orientations=3, n_cells=5,
+                               retrieval_backend="numba", trace_every=0):
     """
     Test identification accuracy across frequencies and n values.
     
@@ -130,7 +131,9 @@ def identification_experiment(scales, n_values, K_values, noise_level=0.1,
                         # Retrieve from DAM
                         retrieved, _, _, _ = dam.retrieve_differential(
                             noisy_encoded,
-                            steps=steps_multiplier * N
+                            steps=steps_multiplier * N,
+                            backend=retrieval_backend,
+                            trace_every=trace_every,
                         )
                         
                         # Check if retrieved is closest to target
@@ -163,7 +166,8 @@ def identification_experiment(scales, n_values, K_values, noise_level=0.1,
 
 def generalization_experiment(scales, n_values, K_values, num_test_points=50,
                                num_trials=5, steps_multiplier=20,
-                               n_orientations=3, n_cells=5):
+                               n_orientations=3, n_cells=5,
+                               retrieval_backend="numba", trace_every=0):
     """
     Test generalization accuracy across frequencies and n values.
     
@@ -252,7 +256,9 @@ def generalization_experiment(scales, n_values, K_values, num_test_points=50,
                         # Retrieve from DAM
                         retrieved, _, _, _ = dam.retrieve_differential(
                             test_encoded,
-                            steps=steps_multiplier * N
+                            steps=steps_multiplier * N,
+                            backend=retrieval_backend,
+                            trace_every=trace_every,
                         )
                         
                         # Check if retrieved is closest to ground-truth nearest neighbor
@@ -294,6 +300,8 @@ def identification_experiment_multiscale(
     beta=0.01,
     alpha=0.5,
     lmbda=0.0,
+    retrieval_backend="numba",
+    trace_every=0,
     verbose=False,
 ):
     """
@@ -348,6 +356,8 @@ def identification_experiment_multiscale(
                         retrieved, _, _, _ = dam.retrieve_differential(
                             noisy_query,
                             steps=steps_multiplier * enc_dim,
+                            backend=retrieval_backend,
+                            trace_every=trace_every,
                         )
                         retrieved_idx = find_nearest_encoded(
                             retrieved, patterns_encoded
@@ -388,6 +398,8 @@ def generalization_experiment_multiscale(
     beta=0.01,
     alpha=0.5,
     lmbda=0.0,
+    retrieval_backend="numba",
+    trace_every=0,
     sample_2d_fn=None,
     verbose=False,
 ):
@@ -456,6 +468,8 @@ def generalization_experiment_multiscale(
                         retrieved, _, _, _ = dam.retrieve_differential(
                             test_encoded,
                             steps=steps_multiplier * enc_dim,
+                            backend=retrieval_backend,
+                            trace_every=trace_every,
                         )
                         retrieved_idx = find_nearest_encoded(
                             retrieved, patterns_encoded
@@ -499,6 +513,8 @@ def run_multiscale_ident_gen_sweep(
     beta=0.01,
     alpha=0.5,
     lmbda=0.0,
+    retrieval_backend="numba",
+    trace_every=0,
     sample_2d_fn=None,
     verbose=False,
 ):
@@ -525,6 +541,8 @@ def run_multiscale_ident_gen_sweep(
         beta=beta,
         alpha=alpha,
         lmbda=lmbda,
+        retrieval_backend=retrieval_backend,
+        trace_every=trace_every,
         verbose=verbose,
     )
     gen_results = generalization_experiment_multiscale(
@@ -541,6 +559,8 @@ def run_multiscale_ident_gen_sweep(
         beta=beta,
         alpha=alpha,
         lmbda=lmbda,
+        retrieval_backend=retrieval_backend,
+        trace_every=trace_every,
         sample_2d_fn=sample_2d_fn,
         verbose=verbose,
     )
@@ -724,6 +744,8 @@ def run_breakit_sweep(
     num_trials=3,
     num_test_points=50,
     steps_multiplier=20,
+    retrieval_backend="numba",
+    trace_every=0,
     sample_2d_fn=None,
     verbose=False,
 ):
@@ -738,6 +760,8 @@ def run_breakit_sweep(
         num_test_points=num_test_points,
         num_trials=num_trials,
         steps_multiplier=steps_multiplier,
+        retrieval_backend=retrieval_backend,
+        trace_every=trace_every,
         n_modules=n_modules,
         n_orientations=n_orientations,
         n_cells_per_orientation=n_cells_per_orientation,
