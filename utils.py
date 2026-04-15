@@ -208,11 +208,16 @@ def plot_tradeoff_curves(ident_results, gen_results, scales, n_values, K_values)
     """
     Plot identification vs generalization accuracy to visualize the tradeoff.
     """
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-    
+    n_n = len(n_values)
+    if n_n == 0:
+        raise ValueError("n_values must be non-empty")
+    fig, axes = plt.subplots(1, n_n, figsize=(5 * n_n, 5))
+    if n_n == 1:
+        axes = np.array([axes])
+
     colors = plt.cm.viridis(np.linspace(0, 0.9, len(scales)))
     markers = ['o', 's', '^', 'D', 'v']
-    
+
     for idx, n in enumerate(n_values):
         ax = axes[idx]
         
@@ -260,14 +265,19 @@ def plot_frequency_effects(ident_results, gen_results, scales, n_values, K_value
     """
     Plot how scale (frequency) affects identification and generalization separately.
     """
-    fig, axes = plt.subplots(2, 3, figsize=(15, 10))
-    
+    n_n = len(n_values)
+    if n_n == 0:
+        raise ValueError("n_values must be non-empty")
+    fig, axes = plt.subplots(2, n_n, figsize=(5 * n_n, 10))
+    if n_n == 1:
+        axes = axes.reshape(2, 1)
+
     colors = plt.cm.tab10(np.linspace(0, 1, len(K_values)))
-    
+
     for idx, n in enumerate(n_values):
         # Top row: Identification
         ax_ident = axes[0, idx]
-        # Bottom row: Generalization  
+        # Bottom row: Generalization
         ax_gen = axes[1, idx]
         
         for k_idx, K in enumerate(K_values):
