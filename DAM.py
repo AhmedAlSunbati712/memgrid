@@ -2,6 +2,17 @@ import numpy as np
 from numba import njit
 
 
+
+"""
+for each step:
+   Stored patterns @ Current_state
+   I will update one single neuron in the current_state
+   the difference between the value of neuron i in the current state and its value after updating is delta
+   current_projections += delta * stored_patterns[:, i]
+
+
+"""
+
 @njit(cache=True)
 def _numba_retrieve_core(patterns, state, projs, update_indices, n_order, beta, alpha, lmbda):
     """In-place differential retrieval with incremental projection updates."""

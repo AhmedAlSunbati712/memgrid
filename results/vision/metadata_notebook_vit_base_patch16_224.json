@@ -1,0 +1,236 @@
+[
+  {
+    "stimulus_id": "red_0000",
+    "color_name": "red",
+    "color_rgb": [
+      220,
+      20,
+      60
+    ],
+    "x": 143,
+    "y": 107,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "red_0001",
+    "color_name": "red",
+    "color_rgb": [
+      220,
+      20,
+      60
+    ],
+    "x": 86,
+    "y": 45,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "red_0002",
+    "color_name": "red",
+    "color_rgb": [
+      220,
+      20,
+      60
+    ],
+    "x": 52,
+    "y": 6,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "green_0000",
+    "color_name": "green",
+    "color_rgb": [
+      34,
+      139,
+      34
+    ],
+    "x": 12,
+    "y": 2,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "green_0001",
+    "color_name": "green",
+    "color_rgb": [
+      34,
+      139,
+      34
+    ],
+    "x": 29,
+    "y": 137,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "green_0002",
+    "color_name": "green",
+    "color_rgb": [
+      34,
+      139,
+      34
+    ],
+    "x": 109,
+    "y": 154,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "blue_0000",
+    "color_name": "blue",
+    "color_rgb": [
+      30,
+      144,
+      255
+    ],
+    "x": 85,
+    "y": 102,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "blue_0001",
+    "color_name": "blue",
+    "color_rgb": [
+      30,
+      144,
+      255
+    ],
+    "x": 164,
+    "y": 123,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "blue_0002",
+    "color_name": "blue",
+    "color_rgb": [
+      30,
+      144,
+      255
+    ],
+    "x": 106,
+    "y": 91,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "yellow_0000",
+    "color_name": "yellow",
+    "color_rgb": [
+      255,
+      215,
+      0
+    ],
+    "x": 94,
+    "y": 158,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "yellow_0001",
+    "color_name": "yellow",
+    "color_rgb": [
+      255,
+      215,
+      0
+    ],
+    "x": 46,
+    "y": 137,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "yellow_0002",
+    "color_name": "yellow",
+    "color_rgb": [
+      255,
+      215,
+      0
+    ],
+    "x": 113,
+    "y": 0,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "purple_0000",
+    "color_name": "purple",
+    "color_rgb": [
+      138,
+      43,
+      226
+    ],
+    "x": 66,
+    "y": 144,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "purple_0001",
+    "color_name": "purple",
+    "color_rgb": [
+      138,
+      43,
+      226
+    ],
+    "x": 93,
+    "y": 5,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "purple_0002",
+    "color_name": "purple",
+    "color_rgb": [
+      138,
+      43,
+      226
+    ],
+    "x": 129,
+    "y": 123,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "orange_0000",
+    "color_name": "orange",
+    "color_rgb": [
+      255,
+      140,
+      0
+    ],
+    "x": 143,
+    "y": 29,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "orange_0001",
+    "color_name": "orange",
+    "color_rgb": [
+      255,
+      140,
+      0
+    ],
+    "x": 15,
+    "y": 145,
+    "image_size": 224,
+    "square_size": 56
+  },
+  {
+    "stimulus_id": "orange_0002",
+    "color_name": "orange",
+    "color_rgb": [
+      255,
+      140,
+      0
+    ],
+    "x": 3,
+    "y": 91,
+    "image_size": 224,
+    "square_size": 56
+  }
+]
