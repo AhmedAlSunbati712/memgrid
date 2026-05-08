@@ -88,6 +88,19 @@ def build_identification_task(
     )
 
 
+def _normalized_rgb_distance(query: StimulusRecord, candidate: StimulusRecord) -> float:
+    query_rgb = np.asarray(query.color_rgb, dtype=np.float32)
+    candidate_rgb = np.asarray(candidate.color_rgb, dtype=np.float32)
+    return float(np.linalg.norm(query_rgb - candidate_rgb) / (np.sqrt(3.0) * 255.0))
+
+
+def _normalized_position_distance(query: StimulusRecord, candidate: StimulusRecord) -> float:
+    max_coord = float(max(query.image_size - query.square_size, 1))
+    dx = float(query.x - candidate.x) / max_coord
+    dy = float(query.y - candidate.y) / max_coord
+    return float(np.hypot(dx, dy) / np.sqrt(2.0))
+
+
 def synthetic_metadata_distance(
     query: StimulusRecord,
     candidate: StimulusRecord,
@@ -98,15 +111,9 @@ def synthetic_metadata_distance(
     if color_weight < 0 or position_weight < 0:
         raise ValueError("weights must be non-negative")
 
-    query_max = max(query.image_size - query.square_size, 1)
-    candidate_max = max(candidate.image_size - candidate.square_size, 1)
-    norm = float(max(query_max, candidate_max))
-
-    color_penalty = 0.0 if query.color_name == candidate.color_name else float(color_weight)
-    dx = (query.x - candidate.x) / norm
-    dy = (query.y - candidate.y) / norm
-    position_penalty = float(position_weight) * float(np.hypot(dx, dy))
-    return color_penalty + position_penalty
+    rgb_distance = _normalized_rgb_distance(query, candidate)
+    position_distance = _normalized_position_distance(query, candidate)
+    return float(color_weight) * rgb_distance + float(position_weight) * position_distance
 
 
 def build_generalization_task_synthetic(

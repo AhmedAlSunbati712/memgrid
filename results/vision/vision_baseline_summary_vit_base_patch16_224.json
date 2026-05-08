@@ -1,0 +1,166 @@
+{
+  "model_name": "vit_base_patch16_224",
+  "seed": 0,
+  "task_mode": "mixed_color_position",
+  "preprocess_mode": "zscore_l2",
+  "metric": "cosine",
+  "identification_baseline": {
+    "layer_0": {
+      "accuracy": 66.66666666666666,
+      "avg_sim": 0.14605178083359263,
+      "std_sim": 0.11955230383986211,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "winners": [
+        0,
+        0,
+        2,
+        3,
+        11,
+        8,
+        6,
+        7,
+        8,
+        9,
+        3,
+        11
+      ]
+    },
+    "layer_11": {
+      "accuracy": 8.333333333333332,
+      "avg_sim": 0.12672032177097997,
+      "std_sim": 0.184771287978054,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "winners": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "layer_6": {
+      "accuracy": 16.666666666666664,
+      "avg_sim": 0.09675199473145636,
+      "std_sim": 0.11536817655712699,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "winners": [
+        0,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    }
+  },
+  "generalization_baseline": {
+    "layer_0": {
+      "accuracy": 41.66666666666667,
+      "avg_sim": 0.4214205694672369,
+      "std_sim": 0.2167595932907124,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "winners": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        0,
+        7,
+        7,
+        8,
+        8,
+        10,
+        10
+      ]
+    },
+    "layer_11": {
+      "accuracy": 41.66666666666667,
+      "avg_sim": 0.6017770893166149,
+      "std_sim": 0.17380831672919497,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "winners": [
+        1,
+        1,
+        2,
+        3,
+        5,
+        4,
+        6,
+        6,
+        9,
+        8,
+        11,
+        11
+      ]
+    },
+    "layer_6": {
+      "accuracy": 50.0,
+      "avg_sim": 0.4287283018718881,
+      "std_sim": 0.17050099418761944,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "winners": [
+        0,
+        0,
+        2,
+        2,
+        5,
+        10,
+        6,
+        6,
+        9,
+        3,
+        10,
+        11
+      ]
+    }
+  },
+  "summary_rows": [
+    {
+      "layer": "layer_0",
+      "ident_baseline_accuracy": 66.66666666666666,
+      "ident_baseline_avg_sim": 0.14605178083359263,
+      "gen_baseline_accuracy": 41.66666666666667,
+      "gen_baseline_avg_sim": 0.4214205694672369
+    },
+    {
+      "layer": "layer_11",
+      "ident_baseline_accuracy": 8.333333333333332,
+      "ident_baseline_avg_sim": 0.12672032177097997,
+      "gen_baseline_accuracy": 41.66666666666667,
+      "gen_baseline_avg_sim": 0.6017770893166149
+    },
+    {
+      "layer": "layer_6",
+      "ident_baseline_accuracy": 16.666666666666664,
+      "ident_baseline_avg_sim": 0.09675199473145636,
+      "gen_baseline_accuracy": 50.0,
+      "gen_baseline_avg_sim": 0.4287283018718881
+    }
+  ]
+}
