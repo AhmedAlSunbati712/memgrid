@@ -3,8 +3,11 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from vision.feature_preprocess import LayerwisePreprocessor
 from vision.image_generator import build_preview_grid, metadata_to_dicts, generate_square_stimuli
@@ -24,7 +27,12 @@ def parse_args() -> argparse.Namespace:
         default="results/vision",
         help="Relative to repository root unless absolute path is provided.",
     )
-    parser.add_argument("--no-zscore", action="store_true", help="Disable per-layer z-score normalization.")
+    parser.add_argument("--zscore", action="store_true", help="Enable per-layer z-score normalization.")
+    parser.add_argument(
+        "--no-zscore",
+        action="store_true",
+        help="Deprecated compatibility flag; l2-only is now the default.",
+    )
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--no-pretrained", action="store_true", help="Use randomly initialized model weights.")
     return parser.parse_args()
@@ -32,6 +40,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    if args.zscore and args.no_zscore:
+        raise ValueError("Use either --zscore or --no-zscore, not both.")
+
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -51,7 +62,7 @@ def main() -> None:
     )
     features_raw = wrapper.extract(images, layer_indices=None, batch_size=args.batch_size)
 
-    preprocessor = LayerwisePreprocessor(use_zscore=not args.no_zscore, l2_normalize=True)
+    preprocessor = LayerwisePreprocessor(use_zscore=args.zscore, l2_normalize=True)
     features = preprocessor.fit_transform(features_raw)
 
     preview_path = output_dir / f"preview_synth_{args.model_name}.png"

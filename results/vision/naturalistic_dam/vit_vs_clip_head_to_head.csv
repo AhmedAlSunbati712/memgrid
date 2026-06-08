@@ -1,0 +1,8 @@
+category,pooling,anchor_kind,vit_layer,clip_layer,outcome,vit_gen_accuracy_delta,clip_gen_accuracy_delta,vit_probe_rdm_delta,clip_probe_rdm_delta,vit_best_config,clip_best_config
+animals,cls,retrieval,layer_11,layer_11,vit_clean_win,12.5,7.499999999999993,0.15355253013798514,-0.08365344627523197,"n=4,beta=0.2,alpha=0.1,steps=2","n=2,beta=0.2,alpha=0.1,steps=2"
+animals,mean_tokens,alignment,layer_6,layer_6,retrieval_only_gain,5.0,2.5,-0.16099679727233762,-0.1380406817863898,"n=2,beta=0.2,alpha=0.05,steps=1","n=4,beta=0.05,alpha=0.05,steps=1"
+animals,mean_tokens,retrieval,layer_11,layer_11,both_clean_wins,10.0,2.5,0.04223298348888496,0.013746676451087458,"n=4,beta=0.1,alpha=0.1,steps=1","n=4,beta=0.05,alpha=0.05,steps=2"
+fruits,cls,retrieval,layer_11,layer_11,retrieval_and_alignment_gain,5.0,7.5,0.28655467613259167,-0.10696795300565909,"n=4,beta=0.2,alpha=0.1,steps=2","n=4,beta=0.5,alpha=0.05,steps=5"
+fruits,mean_tokens,retrieval,layer_11,layer_11,retrieval_and_alignment_gain,5.0,7.5,0.15842834970140995,-0.152085189647298,"n=2,beta=0.2,alpha=0.1,steps=2","n=2,beta=0.2,alpha=0.1,steps=2"
+vegetables,cls,retrieval,layer_11,layer_11,vit_clean_win,2.564102564102562,5.128205128205131,0.13610886808157208,0.0865203925755465,"n=4,beta=0.05,alpha=0.05,steps=1","n=2,beta=0.2,alpha=0.1,steps=2"
+vegetables,mean_tokens,retrieval,layer_11,layer_11,retrieval_and_alignment_gain,7.692307692307693,7.692307692307693,0.12356755810339032,0.06379096949072077,"n=2,beta=0.2,alpha=0.05,steps=2","n=2,beta=0.1,alpha=0.1,steps=2"

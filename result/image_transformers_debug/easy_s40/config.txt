@@ -1,0 +1,45 @@
+generated_at: 2026-05-28T20:49:14.309695
+dataset: animals
+models:
+  - vit_base_patch16_224
+  - vit_base_patch16_clip_224.openai
+pooling: cls
+layers: layer_0, layer_1, layer_2
+split_mode: random_storage_curve
+n_stored_baseline: 40
+n_stored_dam: 40
+n_probe: 80
+n_seeds: 1
+corruption_mode: noise_shift
+noise_std: 5.0
+max_shift: 2
+occlusion_frac: 0.0
+mask_frac: 0.0
+n_chunks: 0
+affine_strength: 0.0
+decision_noise_std: 0.0
+dam_energy_orders: 2
+dam_beta: 0.02
+dam_alpha: 0.1
+dam_lmbda: 0.05
+dam_steps_multiplier: 2
+neurons_by_model_and_layer:
+  vit_base_patch16_224:
+    layer_0: dim=768, steps=1536
+    layer_1: dim=768, steps=1536
+    layer_2: dim=768, steps=1536
+  vit_base_patch16_clip_224.openai:
+    layer_0: dim=768, steps=1536
+    layer_1: dim=768, steps=1536
+    layer_2: dim=768, steps=1536
+files:
+  - baseline_raw.csv
+  - baseline_aggregated.csv
+  - dam_raw.csv
+  - dam_aggregated.csv
+  - baseline_layers_gen_vs_ident.png
+  - dam_n2_layers_gen_vs_ident.png
+  - dam_n4_layers_gen_vs_ident.png
+  - dam_n6_layers_gen_vs_ident.png
+  - dam_n8_layers_gen_vs_ident.png
+  - insights.md

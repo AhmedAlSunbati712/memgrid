@@ -1,0 +1,70 @@
+generated_at: 2026-06-04T20:08:23.164075
+dataset: animals
+models:
+  - vit_base_patch16_224
+  - vit_base_patch16_clip_224.openai
+pooling: cls
+layers: layer_0, layer_1, layer_2, layer_3, layer_4, layer_5, layer_6, layer_7, layer_8, layer_9, layer_10, layer_11
+split_mode: random_storage_curve
+n_stored_baseline: 80
+n_stored_dam: 80
+n_probe: 40
+n_seeds: 5
+corruption_mode: occlusion
+noise_std: 5.0
+max_shift: 2
+occlusion_frac: 0.5
+mask_frac: 0.0
+n_chunks: 0
+affine_strength: 0.0
+decision_noise_std: 0.01
+stored_geometry_metric: mean_pairwise_cosine_distance
+dam_energy_orders: 2, 4, 6, 8
+dam_beta: 0.02
+dam_alpha: 0.1
+dam_lmbda: 0.05
+dam_steps_multiplier: 2
+neurons_by_model_and_layer:
+  vit_base_patch16_224:
+    layer_0: dim=768, steps=1536
+    layer_1: dim=768, steps=1536
+    layer_2: dim=768, steps=1536
+    layer_3: dim=768, steps=1536
+    layer_4: dim=768, steps=1536
+    layer_5: dim=768, steps=1536
+    layer_6: dim=768, steps=1536
+    layer_7: dim=768, steps=1536
+    layer_8: dim=768, steps=1536
+    layer_9: dim=768, steps=1536
+    layer_10: dim=768, steps=1536
+    layer_11: dim=768, steps=1536
+  vit_base_patch16_clip_224.openai:
+    layer_0: dim=768, steps=1536
+    layer_1: dim=768, steps=1536
+    layer_2: dim=768, steps=1536
+    layer_3: dim=768, steps=1536
+    layer_4: dim=768, steps=1536
+    layer_5: dim=768, steps=1536
+    layer_6: dim=768, steps=1536
+    layer_7: dim=768, steps=1536
+    layer_8: dim=768, steps=1536
+    layer_9: dim=768, steps=1536
+    layer_10: dim=768, steps=1536
+    layer_11: dim=768, steps=1536
+files:
+  - baseline_raw.csv
+  - baseline_aggregated.csv
+  - dam_raw.csv
+  - dam_aggregated.csv
+  - tradeoff_summary.csv
+  - baseline_accuracy_vs_pairwise_distance.png
+  - baseline_layers_gen_vs_ident_colored_by_distance.png
+  - dam_n2_accuracy_vs_pairwise_distance.png
+  - dam_n2_layers_gen_vs_ident_colored_by_distance.png
+  - dam_n4_accuracy_vs_pairwise_distance.png
+  - dam_n4_layers_gen_vs_ident_colored_by_distance.png
+  - dam_n6_accuracy_vs_pairwise_distance.png
+  - dam_n6_layers_gen_vs_ident_colored_by_distance.png
+  - dam_n8_accuracy_vs_pairwise_distance.png
+  - dam_n8_layers_gen_vs_ident_colored_by_distance.png
+  - insights.md

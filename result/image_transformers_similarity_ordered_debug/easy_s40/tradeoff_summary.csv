@@ -1,0 +1,5 @@
+kind,setting_name,model_name,dam_n,ident_vs_distance_spearman,gen_vs_distance_spearman,best_gen_layer,best_gen_distance,best_gen_tercile,classification
+baseline,easy_s40,vit_base_patch16_224,,nan,1.0,layer_2,0.002659041632067755,high,tradeoff_not_supported
+baseline,easy_s40,vit_base_patch16_clip_224.openai,,-0.5,1.0,layer_2,0.01020279722862906,high,tradeoff_not_supported
+dam,easy_s40,vit_base_patch16_224,2,nan,1.0,layer_2,0.002659041632067755,high,tradeoff_not_supported
+dam,easy_s40,vit_base_patch16_clip_224.openai,2,-0.5,nan,layer_1,0.003849202249096698,low,tradeoff_not_supported

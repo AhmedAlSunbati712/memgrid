@@ -46,6 +46,24 @@ def _pool_activation(tensor: torch.Tensor, pooling: str) -> torch.Tensor:
     return tensor.reshape(tensor.shape[0], -1)
 
 
+def _pool_transformer_intermediate(
+    intermediate: torch.Tensor | tuple[torch.Tensor, torch.Tensor],
+    pooling: str,
+) -> torch.Tensor:
+    """
+    Pool timm transformer intermediates while preserving a meaningful
+    distinction between CLS-style and patch-mean readouts.
+    """
+    if isinstance(intermediate, tuple):
+        spatial, prefix_tokens = intermediate
+        if pooling in {"auto", "cls"}:
+            return prefix_tokens[:, 0, :]
+        if pooling == "mean_tokens":
+            return spatial.mean(dim=(2, 3))
+        raise ValueError("pooling must be one of: auto, cls, mean_tokens")
+    return _pool_activation(intermediate, pooling=pooling)
+
+
 def _resolve_layer_indices(total_layers: int, layer_indices: Sequence[int] | None) -> list[int]:
     if total_layers <= 0:
         raise ValueError("total_layers must be positive")
@@ -76,22 +94,32 @@ class VisionEmbeddingWrapper:
         data_cfg = resolve_data_config({}, model=self.model)
         self.transform = create_transform(**data_cfg)
 
+    @property
+    def is_transformer_like(self) -> bool:
+        return hasattr(self.model, "blocks") and len(getattr(self.model, "blocks", [])) > 0
+
     def list_default_layer_indices(self) -> list[int]:
-        if hasattr(self.model, "blocks") and len(self.model.blocks) > 0:
+        if self.is_transformer_like:
             return _resolve_layer_indices(len(self.model.blocks), None)
         if hasattr(self.model, "feature_info"):
-            # fallback for convnets created in standard mode may not expose these cleanly
-            n = len(getattr(self.model.feature_info, "info", []))
+            n = len(self.model.feature_info)
             if n > 0:
                 return _resolve_layer_indices(n, None)
         raise ValueError("Could not infer default layers for this model.")
 
     def _extract_intermediates(
         self, batch: torch.Tensor, layer_indices: Sequence[int]
-    ) -> list[torch.Tensor] | None:
+    ) -> list[torch.Tensor | tuple[torch.Tensor, torch.Tensor]] | None:
         if not hasattr(self.model, "forward_intermediates"):
             return None
-        out = self.model.forward_intermediates(batch, indices=list(layer_indices), intermediates_only=True)
+        kwargs = {
+            "indices": list(layer_indices),
+            "intermediates_only": True,
+        }
+        if self.is_transformer_like:
+            kwargs["return_prefix_tokens"] = True
+            kwargs["output_fmt"] = "NCHW"
+        out = self.model.forward_intermediates(batch, **kwargs)
         if isinstance(out, tuple):
             # Some timm models return (last, intermediates) unless intermediates_only honored.
             if len(out) == 2 and isinstance(out[1], (list, tuple)):
@@ -101,7 +129,7 @@ class VisionEmbeddingWrapper:
         return None
 
     def _extract_via_hooks(self, batch: torch.Tensor, layer_indices: Sequence[int]) -> list[torch.Tensor]:
-        if not hasattr(self.model, "blocks"):
+        if not self.is_transformer_like:
             raise ValueError("Hook fallback currently expects transformer models with .blocks")
 
         cache: dict[int, torch.Tensor] = {}
@@ -134,7 +162,7 @@ class VisionEmbeddingWrapper:
 
         images_rgb = _as_rgb_images(images)
         default_indices = self.list_default_layer_indices()
-        if hasattr(self.model, "blocks"):
+        if self.is_transformer_like:
             total_layers = len(self.model.blocks)
             indices = _resolve_layer_indices(total_layers, layer_indices or default_indices)
         else:
@@ -156,7 +184,10 @@ class VisionEmbeddingWrapper:
                     inter = self._extract_via_hooks(batch, indices)
 
                 for name, act in zip(layer_names, inter):
-                    pooled = _pool_activation(act, pooling=pooling)
+                    if self.is_transformer_like:
+                        pooled = _pool_transformer_intermediate(act, pooling=pooling)
+                    else:
+                        pooled = _pool_activation(act, pooling=pooling)
                     collected[name].append(pooled.detach().cpu().numpy().astype(np.float32))
 
         return {name: np.concatenate(parts, axis=0) for name, parts in collected.items()}

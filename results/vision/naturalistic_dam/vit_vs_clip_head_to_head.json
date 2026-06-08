@@ -1,0 +1,342 @@
+{
+  "categories": [
+    "fruits",
+    "vegetables",
+    "animals"
+  ],
+  "branch_pairs": [
+    {
+      "category": "animals",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11"
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "alignment",
+      "vit_layer": "layer_6",
+      "clip_layer": "layer_6"
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11"
+    },
+    {
+      "category": "fruits",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11"
+    },
+    {
+      "category": "fruits",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11"
+    },
+    {
+      "category": "vegetables",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11"
+    },
+    {
+      "category": "vegetables",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11"
+    }
+  ],
+  "comparison_rows": [
+    {
+      "category": "animals",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11",
+      "outcome": "vit_clean_win",
+      "vit_gen_accuracy_delta": 12.5,
+      "clip_gen_accuracy_delta": 7.499999999999993,
+      "vit_probe_rdm_delta": 0.15355253013798514,
+      "clip_probe_rdm_delta": -0.08365344627523197,
+      "vit_best_config": "n=4,beta=0.2,alpha=0.1,steps=2",
+      "clip_best_config": "n=2,beta=0.2,alpha=0.1,steps=2"
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "alignment",
+      "vit_layer": "layer_6",
+      "clip_layer": "layer_6",
+      "outcome": "retrieval_only_gain",
+      "vit_gen_accuracy_delta": 5.0,
+      "clip_gen_accuracy_delta": 2.5,
+      "vit_probe_rdm_delta": -0.16099679727233762,
+      "clip_probe_rdm_delta": -0.1380406817863898,
+      "vit_best_config": "n=2,beta=0.2,alpha=0.05,steps=1",
+      "clip_best_config": "n=4,beta=0.05,alpha=0.05,steps=1"
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11",
+      "outcome": "both_clean_wins",
+      "vit_gen_accuracy_delta": 10.0,
+      "clip_gen_accuracy_delta": 2.5,
+      "vit_probe_rdm_delta": 0.04223298348888496,
+      "clip_probe_rdm_delta": 0.013746676451087458,
+      "vit_best_config": "n=4,beta=0.1,alpha=0.1,steps=1",
+      "clip_best_config": "n=4,beta=0.05,alpha=0.05,steps=2"
+    },
+    {
+      "category": "fruits",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11",
+      "outcome": "retrieval_and_alignment_gain",
+      "vit_gen_accuracy_delta": 5.0,
+      "clip_gen_accuracy_delta": 7.5,
+      "vit_probe_rdm_delta": 0.28655467613259167,
+      "clip_probe_rdm_delta": -0.10696795300565909,
+      "vit_best_config": "n=4,beta=0.2,alpha=0.1,steps=2",
+      "clip_best_config": "n=4,beta=0.5,alpha=0.05,steps=5"
+    },
+    {
+      "category": "fruits",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11",
+      "outcome": "retrieval_and_alignment_gain",
+      "vit_gen_accuracy_delta": 5.0,
+      "clip_gen_accuracy_delta": 7.5,
+      "vit_probe_rdm_delta": 0.15842834970140995,
+      "clip_probe_rdm_delta": -0.152085189647298,
+      "vit_best_config": "n=2,beta=0.2,alpha=0.1,steps=2",
+      "clip_best_config": "n=2,beta=0.2,alpha=0.1,steps=2"
+    },
+    {
+      "category": "vegetables",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11",
+      "outcome": "vit_clean_win",
+      "vit_gen_accuracy_delta": 2.564102564102562,
+      "clip_gen_accuracy_delta": 5.128205128205131,
+      "vit_probe_rdm_delta": 0.13610886808157208,
+      "clip_probe_rdm_delta": 0.0865203925755465,
+      "vit_best_config": "n=4,beta=0.05,alpha=0.05,steps=1",
+      "clip_best_config": "n=2,beta=0.2,alpha=0.1,steps=2"
+    },
+    {
+      "category": "vegetables",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "vit_layer": "layer_11",
+      "clip_layer": "layer_11",
+      "outcome": "retrieval_and_alignment_gain",
+      "vit_gen_accuracy_delta": 7.692307692307693,
+      "clip_gen_accuracy_delta": 7.692307692307693,
+      "vit_probe_rdm_delta": 0.12356755810339032,
+      "clip_probe_rdm_delta": 0.06379096949072077,
+      "vit_best_config": "n=2,beta=0.2,alpha=0.05,steps=2",
+      "clip_best_config": "n=2,beta=0.1,alpha=0.1,steps=2"
+    }
+  ],
+  "frontier_rows": [
+    {
+      "category": "animals",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "encoder": "vit",
+      "model_name": "vit_base_patch16_224",
+      "layer": "layer_11",
+      "qualifying_win": true,
+      "gen_accuracy_delta": 12.5,
+      "gen_avg_margin_delta": 0.12075580047594009,
+      "gen_avg_human_similarity_regret_delta": -0.070625,
+      "probe_rdm_spearman_delta": 0.15355253013798514
+    },
+    {
+      "category": "animals",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "encoder": "clip",
+      "model_name": "vit_base_patch16_clip_224.openai",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 7.499999999999993,
+      "gen_avg_margin_delta": 0.05928543426305106,
+      "gen_avg_human_similarity_regret_delta": -0.02075,
+      "probe_rdm_spearman_delta": -0.08365344627523197
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "alignment",
+      "encoder": "vit",
+      "model_name": "vit_base_patch16_224",
+      "layer": "layer_6",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 5.0,
+      "gen_avg_margin_delta": -0.1704078489258056,
+      "gen_avg_human_similarity_regret_delta": -0.03300000000000003,
+      "probe_rdm_spearman_delta": -0.16099679727233762
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "alignment",
+      "encoder": "clip",
+      "model_name": "vit_base_patch16_clip_224.openai",
+      "layer": "layer_6",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 2.5,
+      "gen_avg_margin_delta": -0.17093016822225846,
+      "gen_avg_human_similarity_regret_delta": -0.019999999999999962,
+      "probe_rdm_spearman_delta": -0.1380406817863898
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "encoder": "vit",
+      "model_name": "vit_base_patch16_224",
+      "layer": "layer_11",
+      "qualifying_win": true,
+      "gen_accuracy_delta": 10.0,
+      "gen_avg_margin_delta": 0.09671359647001877,
+      "gen_avg_human_similarity_regret_delta": -0.06899999999999999,
+      "probe_rdm_spearman_delta": 0.04223298348888496
+    },
+    {
+      "category": "animals",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "encoder": "clip",
+      "model_name": "vit_base_patch16_clip_224.openai",
+      "layer": "layer_11",
+      "qualifying_win": true,
+      "gen_accuracy_delta": 2.5,
+      "gen_avg_margin_delta": 0.007380685762708246,
+      "gen_avg_human_similarity_regret_delta": -0.019125000000000003,
+      "probe_rdm_spearman_delta": 0.013746676451087458
+    },
+    {
+      "category": "fruits",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "encoder": "vit",
+      "model_name": "vit_base_patch16_224",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 5.0,
+      "gen_avg_margin_delta": -0.0922009446321225,
+      "gen_avg_human_similarity_regret_delta": -0.03450000000000002,
+      "probe_rdm_spearman_delta": 0.28655467613259167
+    },
+    {
+      "category": "fruits",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "encoder": "clip",
+      "model_name": "vit_base_patch16_clip_224.openai",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 7.5,
+      "gen_avg_margin_delta": -0.029285946312237746,
+      "gen_avg_human_similarity_regret_delta": -0.01999999999999999,
+      "probe_rdm_spearman_delta": -0.10696795300565909
+    },
+    {
+      "category": "fruits",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "encoder": "vit",
+      "model_name": "vit_base_patch16_224",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 5.0,
+      "gen_avg_margin_delta": -0.08446160603896762,
+      "gen_avg_human_similarity_regret_delta": -0.026611110000000007,
+      "probe_rdm_spearman_delta": 0.15842834970140995
+    },
+    {
+      "category": "fruits",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "encoder": "clip",
+      "model_name": "vit_base_patch16_clip_224.openai",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 7.5,
+      "gen_avg_margin_delta": -0.0646453786153908,
+      "gen_avg_human_similarity_regret_delta": -0.012166664999999993,
+      "probe_rdm_spearman_delta": -0.152085189647298
+    },
+    {
+      "category": "vegetables",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "encoder": "vit",
+      "model_name": "vit_base_patch16_224",
+      "layer": "layer_11",
+      "qualifying_win": true,
+      "gen_accuracy_delta": 2.564102564102562,
+      "gen_avg_margin_delta": 0.00488625572207796,
+      "gen_avg_human_similarity_regret_delta": -0.01717948717948717,
+      "probe_rdm_spearman_delta": 0.13610886808157208
+    },
+    {
+      "category": "vegetables",
+      "pooling": "cls",
+      "anchor_kind": "retrieval",
+      "encoder": "clip",
+      "model_name": "vit_base_patch16_clip_224.openai",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 5.128205128205131,
+      "gen_avg_margin_delta": -0.010839338386908502,
+      "gen_avg_human_similarity_regret_delta": -0.016923076923076957,
+      "probe_rdm_spearman_delta": 0.0865203925755465
+    },
+    {
+      "category": "vegetables",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "encoder": "vit",
+      "model_name": "vit_base_patch16_224",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 7.692307692307693,
+      "gen_avg_margin_delta": -0.03486965718905732,
+      "gen_avg_human_similarity_regret_delta": -0.015128205128205133,
+      "probe_rdm_spearman_delta": 0.12356755810339032
+    },
+    {
+      "category": "vegetables",
+      "pooling": "mean_tokens",
+      "anchor_kind": "retrieval",
+      "encoder": "clip",
+      "model_name": "vit_base_patch16_clip_224.openai",
+      "layer": "layer_11",
+      "qualifying_win": false,
+      "gen_accuracy_delta": 7.692307692307693,
+      "gen_avg_margin_delta": -0.061783794640236804,
+      "gen_avg_human_similarity_regret_delta": -0.017720797435897426,
+      "probe_rdm_spearman_delta": 0.06379096949072077
+    }
+  ]
+}

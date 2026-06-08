@@ -33,6 +33,12 @@ def _normalize_indices(indices: Sequence[int] | None, total: int) -> np.ndarray:
     return out
 
 
+def _item_id(item: object) -> str:
+    if hasattr(item, "stimulus_id"):
+        return str(getattr(item, "stimulus_id"))
+    return str(item)
+
+
 def build_balanced_splits_by_color(
     metadata: Sequence[StimulusRecord],
     n_stored_per_color: int,
@@ -77,8 +83,8 @@ def build_identification_task(
         raise ValueError("Identification probes must reference items present in the stored set.")
 
     ground_truth = np.asarray([stored_lookup[int(idx)] for idx in probe], dtype=np.int64)
-    stored_ids = tuple(metadata[int(idx)].stimulus_id for idx in stored)
-    probe_ids = tuple(metadata[int(idx)].stimulus_id for idx in probe)
+    stored_ids = tuple(_item_id(metadata[int(idx)]) for idx in stored)
+    probe_ids = tuple(_item_id(metadata[int(idx)]) for idx in probe)
     return TaskBatch(
         stored_indices=stored,
         probe_indices=probe,
@@ -160,12 +166,46 @@ def build_generalization_task_synthetic(
         ]
         ground_truth.append(int(np.argmin(distances)))
 
-    stored_ids = tuple(metadata[int(idx)].stimulus_id for idx in stored)
-    probe_ids = tuple(metadata[int(idx)].stimulus_id for idx in probe)
+    stored_ids = tuple(_item_id(metadata[int(idx)]) for idx in stored)
+    probe_ids = tuple(_item_id(metadata[int(idx)]) for idx in probe)
     return TaskBatch(
         stored_indices=stored,
         probe_indices=probe,
         ground_truth_idx=np.asarray(ground_truth, dtype=np.int64),
         stored_ids=stored_ids,
         probe_ids=probe_ids,
+    )
+
+
+def build_generalization_task_human_similarity(
+    item_ids: Sequence[str],
+    similarity_matrix: np.ndarray,
+    stored_indices: Sequence[int],
+    probe_indices: Sequence[int],
+) -> TaskBatch:
+    if not item_ids:
+        raise ValueError("item_ids must be non-empty")
+    similarity = np.asarray(similarity_matrix, dtype=np.float64)
+    if similarity.ndim != 2 or similarity.shape[0] != similarity.shape[1]:
+        raise ValueError("similarity_matrix must be square")
+    if similarity.shape[0] != len(item_ids):
+        raise ValueError("similarity_matrix size must match item_ids length")
+
+    stored = _normalize_indices(stored_indices, len(item_ids))
+    probe = _normalize_indices(probe_indices, len(item_ids))
+    stored_set = set(int(idx) for idx in stored)
+    if any(int(idx) in stored_set for idx in probe):
+        raise ValueError("Generalization probes must be disjoint from the stored set.")
+
+    ground_truth: list[int] = []
+    for probe_idx in probe:
+        scores = similarity[int(probe_idx), stored]
+        ground_truth.append(int(np.argmax(scores)))
+
+    return TaskBatch(
+        stored_indices=stored,
+        probe_indices=probe,
+        ground_truth_idx=np.asarray(ground_truth, dtype=np.int64),
+        stored_ids=tuple(item_ids[int(idx)] for idx in stored),
+        probe_ids=tuple(item_ids[int(idx)] for idx in probe),
     )

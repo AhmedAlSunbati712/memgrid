@@ -46,6 +46,8 @@ def score_against_stored(
     stored: np.ndarray,
     *,
     metric: str = "cosine",
+    decision_noise_std: float = 0.0,
+    decision_noise_rng: np.random.Generator | None = None,
 ) -> np.ndarray:
     if metric not in VALID_METRICS:
         raise ValueError(f"metric must be one of {sorted(VALID_METRICS)}")
@@ -58,13 +60,22 @@ def score_against_stored(
         raise ValueError("query and stored feature dimensions must match")
 
     if metric == "dot":
-        return stored @ query
-    if metric == "euclidean":
-        return -np.linalg.norm(stored - query, axis=1)
+        scores = stored @ query
+    elif metric == "euclidean":
+        scores = -np.linalg.norm(stored - query, axis=1)
+    else:
+        query_norm = np.linalg.norm(query) + 1e-12
+        stored_norms = np.linalg.norm(stored, axis=1) + 1e-12
+        scores = (stored @ query) / (stored_norms * query_norm)
 
-    query_norm = np.linalg.norm(query) + 1e-12
-    stored_norms = np.linalg.norm(stored, axis=1) + 1e-12
-    return (stored @ query) / (stored_norms * query_norm)
+    if decision_noise_std > 0.0:
+        rng = decision_noise_rng or np.random.default_rng()
+        scores = np.asarray(scores, dtype=np.float64) + rng.normal(
+            0.0,
+            decision_noise_std,
+            size=np.asarray(scores).shape,
+        )
+    return scores
 
 
 def find_nearest_by_metric(
@@ -72,8 +83,20 @@ def find_nearest_by_metric(
     stored: np.ndarray,
     *,
     metric: str = "cosine",
+    decision_noise_std: float = 0.0,
+    decision_noise_rng: np.random.Generator | None = None,
 ) -> int:
-    return int(np.argmax(score_against_stored(query, stored, metric=metric)))
+    return int(
+        np.argmax(
+            score_against_stored(
+                query,
+                stored,
+                metric=metric,
+                decision_noise_std=decision_noise_std,
+                decision_noise_rng=decision_noise_rng,
+            )
+        )
+    )
 
 
 def _target_cosines(
@@ -87,6 +110,28 @@ def _target_cosines(
     )
 
 
+def _best_wrong_cosines(
+    queries: np.ndarray,
+    stored: np.ndarray,
+    targets: np.ndarray,
+) -> np.ndarray:
+    values: list[float] = []
+    for query, target_idx in zip(queries, targets):
+        wrong_indices = [idx for idx in range(stored.shape[0]) if idx != int(target_idx)]
+        if not wrong_indices:
+            values.append(float("nan"))
+            continue
+        wrong_cos = [cosine(query, stored[idx]) for idx in wrong_indices]
+        values.append(float(np.max(wrong_cos)))
+    return np.asarray(values, dtype=np.float64)
+
+
+def _nanmean_or_nan(values: np.ndarray) -> float:
+    if np.all(np.isnan(values)):
+        return float("nan")
+    return float(np.nanmean(values))
+
+
 def evaluate_layerwise_baseline(
     stored_features: dict[str, np.ndarray],
     probe_features: dict[str, np.ndarray],
@@ -94,6 +139,8 @@ def evaluate_layerwise_baseline(
     *,
     metric: str = "cosine",
     normalize_query: bool = False,
+    decision_noise_std: float = 0.0,
+    decision_noise_seed: int | None = None,
 ) -> dict[str, dict[str, object]]:
     if metric not in VALID_METRICS:
         raise ValueError(f"metric must be one of {sorted(VALID_METRICS)}")
@@ -121,21 +168,39 @@ def evaluate_layerwise_baseline(
 
         winners: list[int] = []
         scored_queries = []
-        for probe_vec in probes:
+        for probe_idx, probe_vec in enumerate(probes):
             score_vec = _normalize_vector(probe_vec) if normalize_query else probe_vec
             scored_queries.append(score_vec)
-            winners.append(find_nearest_by_metric(score_vec, stored, metric=metric))
+            noise_rng = None
+            if decision_noise_std > 0.0:
+                seed_offset = 0 if decision_noise_seed is None else int(decision_noise_seed)
+                noise_rng = np.random.default_rng(seed_offset + probe_idx)
+            winners.append(
+                find_nearest_by_metric(
+                    score_vec,
+                    stored,
+                    metric=metric,
+                    decision_noise_std=decision_noise_std,
+                    decision_noise_rng=noise_rng,
+                )
+            )
 
         scored_queries_arr = np.asarray(scored_queries, dtype=np.float32)
         target_cos = _target_cosines(scored_queries_arr, stored, targets)
+        best_wrong_cos = _best_wrong_cosines(scored_queries_arr, stored, targets)
+        margins = target_cos - best_wrong_cos
         successes = np.asarray(winners, dtype=np.int64) == targets
         results[layer] = {
             "accuracy": float(np.mean(successes) * 100.0),
+            "avg_target_sim": float(np.mean(target_cos)),
+            "avg_best_wrong_sim": _nanmean_or_nan(best_wrong_cos),
+            "avg_margin": _nanmean_or_nan(margins),
             "avg_sim": float(np.mean(target_cos)),
             "std_sim": float(np.std(target_cos)),
             "avg_probe_norm": float(np.mean(np.linalg.norm(probes, axis=1))),
             "avg_target_norm": float(np.mean(np.linalg.norm(stored[targets], axis=1))),
             "metric": metric,
+            "decision_noise_std": float(decision_noise_std),
             "winners": winners,
         }
 
