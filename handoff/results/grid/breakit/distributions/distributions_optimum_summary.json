@@ -1,0 +1,20 @@
+[
+  {
+    "setting_value": "uniform",
+    "optimum_c": 1.4190476190476191,
+    "gen_accuracy": 53.77777777777777,
+    "ident_accuracy": 92.22222222222221
+  },
+  {
+    "setting_value": "clustered",
+    "optimum_c": 1.7333333333333334,
+    "gen_accuracy": 49.333333333333336,
+    "ident_accuracy": 93.33333333333333
+  },
+  {
+    "setting_value": "biased",
+    "optimum_c": 1.5238095238095237,
+    "gen_accuracy": 65.11111111111111,
+    "ident_accuracy": 83.8888888888889
+  }
+]

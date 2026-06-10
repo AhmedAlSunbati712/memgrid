@@ -1,0 +1,10 @@
+% Memoir PDF tweaks for REPORT.md script tables and figures.
+\usepackage{etoolbox}
+\usepackage{xurl}
+\usepackage{graphicx}
+
+\AtBeginEnvironment{longtable}{%
+  \small
+  \setlength{\tabcolsep}{4pt}%
+  \sloppy
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "category": "animals",
+    "corruption_label": "noise30_shift16_dnoise0",
+    "decision_noise_std": 0.0,
+    "best_gen_layer": "layer_11",
+    "best_gen_ident_accuracy": 100.0,
+    "best_gen_accuracy": 70.0,
+    "best_align_layer": "layer_6",
+    "best_align_ident_accuracy": 95.0,
+    "best_align_accuracy": 22.5,
+    "preview_path": "results/vision/naturalistic_spotcheck/animals_vit_only_noise30_shift16/previews/animals_noise30_shift16_dnoise0.png"
+  },
+  {
+    "category": "animals",
+    "corruption_label": "occ0.5_dnoise0",
+    "decision_noise_std": 0.0,
+    "best_gen_layer": "layer_11",
+    "best_gen_ident_accuracy": 90.0,
+    "best_gen_accuracy": 70.0,
+    "best_align_layer": "layer_6",
+    "best_align_ident_accuracy": 100.0,
+    "best_align_accuracy": 22.5,
+    "preview_path": "results/vision/naturalistic_spotcheck/animals_vit_only_occlusion50/previews/animals_occ0.5_dnoise0.png"
+  },
+  {
+    "category": "animals",
+    "corruption_label": "occ0.5_dnoise0.01",
+    "decision_noise_std": 0.01,
+    "best_gen_layer": "layer_11",
+    "best_gen_ident_accuracy": 67.5,
+    "best_gen_accuracy": 65.0,
+    "best_align_layer": "layer_6",
+    "best_align_ident_accuracy": 72.5,
+    "best_align_accuracy": 11.25,
+    "preview_path": "results/vision/naturalistic_spotcheck/animals_vit_only_occlusion50_dnoise001/previews/animals_occ0.5_dnoise0.01.png"
+  },
+  {
+    "category": "fruits",
+    "corruption_label": "occ0.5_dnoise0",
+    "decision_noise_std": 0.0,
+    "best_gen_layer": "layer_11",
+    "best_gen_ident_accuracy": 80.0,
+    "best_gen_accuracy": 47.5,
+    "best_align_layer": "layer_6",
+    "best_align_ident_accuracy": 100.0,
+    "best_align_accuracy": 7.5,
+    "preview_path": "results/vision/naturalistic_spotcheck/fruits_vit_only_occlusion50/previews/fruits_occ0.5_dnoise0.png"
+  }
+]

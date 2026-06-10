@@ -1,0 +1,32 @@
+[
+  {
+    "setting_value": "1",
+    "optimum_c": 1.0,
+    "gen_accuracy": 58.666666666666664,
+    "ident_accuracy": 69.44444444444444
+  },
+  {
+    "setting_value": "3",
+    "optimum_c": 1.4190476190476191,
+    "gen_accuracy": 57.333333333333336,
+    "ident_accuracy": 78.88888888888889
+  },
+  {
+    "setting_value": "5",
+    "optimum_c": 1.3142857142857143,
+    "gen_accuracy": 53.11111111111111,
+    "ident_accuracy": 76.66666666666667
+  },
+  {
+    "setting_value": "7",
+    "optimum_c": 1.3142857142857143,
+    "gen_accuracy": 54.22222222222223,
+    "ident_accuracy": 80.0
+  },
+  {
+    "setting_value": "9",
+    "optimum_c": 1.3142857142857143,
+    "gen_accuracy": 56.66666666666666,
+    "ident_accuracy": 74.44444444444444
+  }
+]

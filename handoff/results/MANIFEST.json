@@ -1,0 +1,74 @@
+{
+  "handoff_root": "/Volumes/youwhat/projects/memgrid/handoff",
+  "artifact_count": 17,
+  "entries": [
+    {
+      "path": "results/image_transformers/easy_s40/baseline_aggregated.csv",
+      "sha256": "88121b477f464e168c96d6354c85d687cba053dfcb1a6a546277a1c5dd452b99"
+    },
+    {
+      "path": "results/image_transformers/easy_s40/config.txt",
+      "sha256": "a440304314c198eebc9de17571691fe319df4ada918c296e252a339e523d0d39"
+    },
+    {
+      "path": "results/image_transformers/easy_s80/baseline_aggregated.csv",
+      "sha256": "19d87d864450c4ab54132e89fc59ecb1f6504a5495e6119a08d8121f04949f0e"
+    },
+    {
+      "path": "results/image_transformers/easy_s80/config.txt",
+      "sha256": "196c420e7173ba876ba7b3c5ac9ee9f0f42781f5b0089e02ac322b626d8d2ae9"
+    },
+    {
+      "path": "results/image_transformers/occ50_dnoise001_s40/baseline_aggregated.csv",
+      "sha256": "ffb28a31eea1e2a7536b71bda67bf9c1e384d78f3f374bef07f9d7efa94956a4"
+    },
+    {
+      "path": "results/image_transformers/occ50_dnoise001_s40/config.txt",
+      "sha256": "4d0caf30ee9540c36b07380831d5ceb188c1588b08ffc25f78a6310ff896a489"
+    },
+    {
+      "path": "results/image_transformers/occ50_dnoise001_s80/baseline_aggregated.csv",
+      "sha256": "a51cd35712b58a6dae6e2b68bab84dc4a05428e3a827ee1d5a9558ff61ea22d5"
+    },
+    {
+      "path": "results/image_transformers/occ50_dnoise001_s80/config.txt",
+      "sha256": "6d1111a7b1bf06bc4312185009b103a594f22a441ac471a3c1ebd5b603d2c659"
+    },
+    {
+      "path": "results/image_transformers/occ50_s40/baseline_aggregated.csv",
+      "sha256": "e412f51a86a6bc1f44f44b3c6f63ff21e11f5056d421a76b7ed5459dc1999383"
+    },
+    {
+      "path": "results/image_transformers/occ50_s40/config.txt",
+      "sha256": "55316bdb728a251310855ad58f9aa19079c832b8af8f40444cc71ddcbada9f7d"
+    },
+    {
+      "path": "results/image_transformers/occ50_s80/baseline_aggregated.csv",
+      "sha256": "bcef2fc260f4f0dea6eb072a5062833b6a1cb5514f729f8a0b021f2f09ef28af"
+    },
+    {
+      "path": "results/image_transformers/occ50_s80/config.txt",
+      "sha256": "10b7c487b7689ee03889d714240aa3b74d54b9403f6606ca05d64e64bd2db796"
+    },
+    {
+      "path": "results/vision/model_comparison/model_comparison_combined.csv",
+      "sha256": "baf885e6d8c78e1a7e8b249e242e76975262775aec031fd25b9e6bc4449980bf"
+    },
+    {
+      "path": "results/vision/naturalistic/animals_combined.csv",
+      "sha256": "576e87463dfc1032194e946218af744badca1d4a8c076bbf72d8af02a577db7e"
+    },
+    {
+      "path": "results/vision/naturalistic/fruits_combined.csv",
+      "sha256": "6a64ccb19308c1d2def3a9c55f18479109ab1529e3f72828e38b3a719f348e67"
+    },
+    {
+      "path": "results/vision/naturalistic/vegetables_combined.csv",
+      "sha256": "c342f0e17032c77acf6be1d3593fd60a7b1d6175f44465601736071bed81f204"
+    },
+    {
+      "path": "results/vision/naturalistic_dam/vit_vs_clip_head_to_head.csv",
+      "sha256": "fe0d49829d1c4f65e9a47c4e1d29f977368b53531cfc64b19a254b377c28574d"
+    }
+  ]
+}

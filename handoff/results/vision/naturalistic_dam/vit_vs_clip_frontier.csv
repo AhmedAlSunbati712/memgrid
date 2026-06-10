@@ -1,0 +1,15 @@
+category,pooling,anchor_kind,encoder,model_name,layer,qualifying_win,gen_accuracy_delta,gen_avg_margin_delta,gen_avg_human_similarity_regret_delta,probe_rdm_spearman_delta
+animals,cls,retrieval,vit,vit_base_patch16_224,layer_11,True,2.500000000000007,0.09322311708164985,-0.007000000000000006,0.13765383694013522
+animals,cls,retrieval,clip,vit_base_patch16_clip_224.openai,layer_11,False,2.5,0.02389594804738841,-0.009625000000000009,-0.09040054013703974
+animals,mean_tokens,alignment,vit,vit_base_patch16_224,layer_6,False,-1.25,-0.09007842007339625,-0.02674999999999994,-0.12878563708370583
+animals,mean_tokens,alignment,clip,vit_base_patch16_clip_224.openai,layer_6,False,-1.2500000000000036,-0.10493437422575894,-0.045125000000000026,-0.15061524007066035
+animals,mean_tokens,retrieval,vit,vit_base_patch16_224,layer_11,False,2.500000000000007,0.07991705018114491,-0.030749999999999986,0.09833327406951667
+animals,mean_tokens,retrieval,clip,vit_base_patch16_clip_224.openai,layer_11,False,1.25,0.007864187263807857,-0.03487499999999999,0.03476734537140175
+fruits,cls,retrieval,vit,vit_base_patch16_224,layer_11,False,5.0,-0.0173261038662021,-0.012555554999999996,0.019835563753791863
+fruits,cls,retrieval,clip,vit_base_patch16_clip_224.openai,layer_11,False,5.0,-0.021350710867536888,-0.0037499999999999756,-0.12359885572820772
+fruits,mean_tokens,retrieval,vit,vit_base_patch16_224,layer_11,False,2.500000000000007,-0.005640100111365258,-0.017000000000000015,-0.07207471660937009
+fruits,mean_tokens,retrieval,clip,vit_base_patch16_clip_224.openai,layer_11,False,7.5,-0.043552706139718414,-0.012916664999999994,-0.15724446438530632
+vegetables,cls,retrieval,vit,vit_base_patch16_224,layer_11,False,5.128205128205131,-0.014377608628958139,-0.03692307692307693,0.11275357365967059
+vegetables,cls,retrieval,clip,vit_base_patch16_clip_224.openai,layer_11,False,2.564102564102569,-0.017166535963246233,0.004871794871794871,0.03237626166552121
+vegetables,mean_tokens,retrieval,vit,vit_base_patch16_224,layer_11,False,7.692307692307686,-0.0024860416580376396,-0.027948717948717935,0.09500139994279944
+vegetables,mean_tokens,retrieval,clip,vit_base_patch16_clip_224.openai,layer_11,False,5.128205128205131,-0.06018956205423245,-0.013618233333333313,0.05375033932116963

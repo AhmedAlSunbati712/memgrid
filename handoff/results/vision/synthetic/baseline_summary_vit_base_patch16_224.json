@@ -1,0 +1,193 @@
+{
+  "model_name": "vit_base_patch16_224",
+  "task_mode": "mixed_color_position",
+  "ident_corruption": {
+    "noise_std": 5.0,
+    "max_shift": 2,
+    "occlusion_frac": 0.5,
+    "decision_noise_std": 0.01
+  },
+  "layers": [
+    {
+      "layer": "layer_0",
+      "ident_accuracy": 0.0,
+      "gen_accuracy": 66.66666666666666,
+      "ident_avg_margin": -1.1091425651107064e-05,
+      "gen_avg_margin": 4.3710051846520176e-07
+    },
+    {
+      "layer": "layer_11",
+      "ident_accuracy": 8.333333333333332,
+      "gen_accuracy": 50.0,
+      "ident_avg_margin": -0.0029539913146194863,
+      "gen_avg_margin": -0.0002135684421224008
+    },
+    {
+      "layer": "layer_6",
+      "ident_accuracy": 8.333333333333332,
+      "gen_accuracy": 58.333333333333336,
+      "ident_avg_margin": -0.002089302074378676,
+      "gen_avg_margin": -0.00013326605949425438
+    }
+  ],
+  "exact_image_sanity": {
+    "layer_0": {
+      "accuracy": 100.0,
+      "avg_target_sim": 1.000000044702486,
+      "avg_best_wrong_sim": 0.9999912430826757,
+      "avg_margin": 8.801619810122618e-06,
+      "avg_sim": 1.000000044702486,
+      "std_sim": 4.9421561326350895e-08,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "decision_noise_std": 0.0,
+      "winners": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "layer_11": {
+      "accuracy": 100.0,
+      "avg_target_sim": 1.0000000248342715,
+      "avg_best_wrong_sim": 0.9979245560668103,
+      "avg_margin": 0.002075468767461471,
+      "avg_sim": 1.0000000248342715,
+      "std_sim": 3.815266630939771e-08,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "decision_noise_std": 0.0,
+      "winners": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "layer_6": {
+      "accuracy": 100.0,
+      "avg_target_sim": 1.0000000298013259,
+      "avg_best_wrong_sim": 0.9989586670065744,
+      "avg_margin": 0.0010413627947515325,
+      "avg_sim": 1.0000000298013259,
+      "std_sim": 3.84746354852041e-08,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "decision_noise_std": 0.0,
+      "winners": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    }
+  },
+  "clean_reextract_sanity": {
+    "layer_0": {
+      "accuracy": 100.0,
+      "avg_target_sim": 1.000000044702486,
+      "avg_best_wrong_sim": 0.9999912430826757,
+      "avg_margin": 8.801619810122618e-06,
+      "avg_sim": 1.000000044702486,
+      "std_sim": 4.9421561326350895e-08,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "decision_noise_std": 0.0,
+      "winners": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "layer_11": {
+      "accuracy": 100.0,
+      "avg_target_sim": 1.0000000248342715,
+      "avg_best_wrong_sim": 0.9979245560668103,
+      "avg_margin": 0.002075468767461471,
+      "avg_sim": 1.0000000248342715,
+      "std_sim": 3.815266630939771e-08,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "decision_noise_std": 0.0,
+      "winners": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "layer_6": {
+      "accuracy": 100.0,
+      "avg_target_sim": 1.0000000298013259,
+      "avg_best_wrong_sim": 0.9989586670065744,
+      "avg_margin": 0.0010413627947515325,
+      "avg_sim": 1.0000000298013259,
+      "std_sim": 3.84746354852041e-08,
+      "avg_probe_norm": 1.0,
+      "avg_target_norm": 1.0,
+      "metric": "cosine",
+      "decision_noise_std": 0.0,
+      "winners": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    }
+  }
+}

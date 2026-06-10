@@ -1,0 +1,880 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+  11pt,
+]{memoir}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{\textbf{#1}}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc}
+\newcommand{\real}[1]{#1} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% Memoir PDF tweaks for REPORT.md script tables and figures.
+\usepackage{etoolbox}
+\usepackage{xurl}
+\usepackage{graphicx}
+
+\AtBeginEnvironment{longtable}{%
+  \small
+  \setlength{\tabcolsep}{4pt}%
+  \sloppy
+}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+\frontmatter
+
+\mainmatter
+\chapter{Identification, Generalization, and Dense Associative Memory on
+Grid Codes and Naturalistic
+Vision}\label{identification-generalization-and-dense-associative-memory-on-grid-codes-and-naturalistic-vision}
+
+\textbf{Ahmed Al Sunbati}\\
+Neukom Scholar project handoff report\\
+Dartmouth College, June 2026
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Introduction}\label{introduction}
+
+The starting question for this term was whether we could replicate a
+meaninguflly tradeoff between \textbf{identification} and
+\textbf{generalization} in vision systems coupled with DAM.
+Identification means: store a pattern, cue with a noisy version of the
+same pattern, and ask whether retrieval lands on the correct stored
+item. Generalization means: cue with a novel pattern and ask whether
+retrieval lands on the stored item that best matches it under some
+similarity rule.
+
+I built two parallel tracks. The \textbf{grid track}, which was finished
+last term and optimized over the start of the spring to reduce runtime
+to under 5 mins per experiment, uses a synthetic 2D spatial code
+(inspired by grid cells) where the ident/gen tradeoff is real and easy
+to measure. The \textbf{vision track} uses pretrained image models (ViT,
+CLIP, ConvNeXt) on colored squares and on real Peterson images with
+human similarity ratings. Everything needed to rerun or reload results
+lives in the \texttt{handoff/} folder: two notebooks, CLI scripts,
+bundled data, and precomputed outputs under \texttt{results/}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{1. Core memory model: Dense Associative
+Memory}\label{core-memory-model-dense-associative-memory}
+
+Both tracks share the same memory module, implemented in
+\texttt{core/DAM.py} as \texttt{DenseAssociativeMemory}.
+
+\subsection{1.1 Identification and
+generalization}\label{identification-and-generalization}
+
+\begin{quote}
+\textbf{Identification:} retrieve the stored pattern from a noisy
+encoding of the same point.\\
+\textbf{Generalization:} retrieve the nearest stored pattern from a
+novel test point.
+\end{quote}
+
+On the grid, ``novel'' means a fresh draw from the 2D input space. On
+vision, identification probes are corrupted copies of stored images;
+generalization probes are held-out images whose correct target is the
+stored image with highest human similarity (naturalistic) or highest
+task similarity (synthetic).
+
+\subsection{1.2 Energy and retrieval}\label{energy-and-retrieval}
+
+Classical Hopfield networks use a quadratic energy in the overlap
+between state and stored patterns. Dense Associative Memory raises that
+overlap to order $n > 2$ inside a rectified polynomial,
+which increases effective capacity. The energy for state vector
+$\mathbf{s}$ and stored patterns $\mathbf{p}_{\mu}$ is:
+
+\[
+E(\mathbf{s}) = -\sum_{\mu} F(\mathbf{p}_\mu \cdot \mathbf{s}) + \frac{\lambda}{2}\|\mathbf{s}\|^2, \qquad F(x) = [\max(0, x)]^n
+\]
+
+Retrieval starts from a noisy cue and runs asynchronous neuron updates.
+Each step moves one coordinate of $\mathbf{s}$ toward a value that
+lowers the energy, using inverse temperature $\beta$, relaxation rate
+$\alpha$, and optional L2 regularization $\lambda$. The network settles
+on whichever stored pattern has the strongest overlap with the final
+state.
+
+For large sweeps I used the \textbf{Numba} backend
+(\texttt{retrieve\_differential}) because the pure NumPy loop is too
+slow when you are crossing thousands of ($(c, n, K)$) combinations.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{2. Grid encoder and synthetic spatial
+benchmark}\label{grid-encoder-and-synthetic-spatial-benchmark}
+
+The grid track maps 2D coordinates into high-dimensional patterns before
+they enter DAM. \texttt{core/Encoder.py} implements
+\texttt{GridEncoder}, modeled after entorhinal grid cells.
+
+\subsection{2.1 Encoding}\label{encoding}
+
+Each module (m) runs at spatial frequency proportional to
+\texttt{base\_freq\ ·\ c\^{}m}, where $c$ is the \textbf{scale factor}
+swept in the multiscale experiment. Within a module there are several
+orientation vectors $\mathbf{k}_{o}$ in the plane and several
+phase-shifted grid cells. A 2D position $\mathbf{x}$ is projected onto
+each grid:
+
+\[
+\phi_{m,o,p}(\mathbf{x}) = 2\pi f_m (\mathbf{x} \cdot \mathbf{k}_o) + \psi_{m,o,p}
+\]
+
+The encoded vector stacks $\cos\phi$ and $\sin\phi$ over all modules,
+orientations, and cells. Nearby locations get similar codes; far apart
+locations diverge. That gives DAM a smooth spatial memory substrate
+where we control geometry directly.
+
+Default encoder settings in the notebook (4 modules, 3 orientations, 4
+cells per orientation, \texttt{base\_freq\ =\ 0.5}) match
+\texttt{lib/grid\_defaults.py}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{\texorpdfstring{3. Notebook:
+\texttt{GridDAM.ipynb}}{3. Notebook: GridDAM.ipynb}}\label{notebook-griddam.ipynb}
+
+\subsection{3.1 Setup}\label{setup}
+
+The setup cell bootstraps paths from \texttt{handoff/lib/paths.py} and
+sets:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3750}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3750}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meaning
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{QUICK\_MODE} & \texttt{False} & Smaller parameter grids for
+smoke tests \\
+\texttt{LOAD\_EXISTING} & \texttt{False} & Skip multiscale sweep if
+{\ttfamily\nolinkurl{results/grid/multiscale/ident\_results.json}} already exists \\
+\texttt{OUTPUT\_DIR} & {\ttfamily\nolinkurl{results/grid}} & All grid outputs \\
+\end{longtable}
+
+\subsection{3.2 Structure preservation}\label{structure-preservation}
+
+Before any DAM sweep, the notebook checks that \textbf{encoded}
+distances still correlate with \textbf{2D} distances as $c$ changes. If
+the code stops preserving geometry, ident/gen numbers are hard to
+interpret.
+
+\begin{quote}
+Before running DAM sweeps, check that encoded distances still correlate
+with 2D distances as \texttt{c} changes.
+\end{quote}
+
+\subsection{3.3 Multiscale ident/gen
+sweep}\label{multiscale-identgen-sweep}
+
+The pipeline, quoted from the notebook:
+
+\begin{quote}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Encoder:} build a multiscale grid code with
+  \texttt{n\_modules} modules. Module \texttt{m} uses frequency
+  \texttt{base\_freq\ *\ c\^{}m}, where \texttt{c} is the scale
+  factor.\\
+\item
+  \textbf{Memory:} store \texttt{K} encoded 2D points in a Dense
+  Associative Memory. Vary the energy order \texttt{n} of the DAM.\\
+\item
+  \textbf{Identification trials:} cue with noisy encodings of stored
+  points.\\
+\item
+  \textbf{Generalization trials:} cue with encodings of novel test
+  points.\\
+\item
+  \textbf{Sweep} over scale factor \texttt{c}, DAM order \texttt{n}, and
+  number stored \texttt{K}. Plot identification vs generalization.
+\end{enumerate}
+\end{quote}
+
+\textbf{Main finding:} generalization peaks near scale factor $c \approx \sqrt{e} \approx 1.65$ while identification keeps improving at
+larger $c$.
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 1. Multiscale tradeoff curves. Identification and generalization accuracy vs scale factor c for several DAM orders n.}]{results/grid/multiscale/tradeoff_by_n.png}}
+\caption{Figure 1. Multiscale tradeoff curves. Identification and
+generalization accuracy vs scale factor c for several DAM orders n.}
+\end{figure}
+
+Outputs: \texttt{ident\_results.json}, \texttt{gen\_results.json},
+\texttt{config.json}, and the tradeoff figure above.
+
+\subsection{3.4 Encoder sensitivity
+sweeps}\label{encoder-sensitivity-sweeps}
+
+This part varies \textbf{one encoder parameter at a time} (orientations,
+base frequency, module count, cells per orientation, or 2D sampling
+distribution) and tracks the gen-optimal scale factor (c\^{}*) at fixed
+DAM order (n = 4).
+
+\begin{quote}
+Change one encoder parameter at a time and track the gen-optimal scale
+factor \texttt{c} at \texttt{n=4}.
+\end{quote}
+
+Each experiment writes JSON summaries and tradeoff PNGs under
+{\ttfamily\nolinkurl{results/grid/breakit/\{experiment\}}/}.
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 2. Example break-it tradeoff (orientations = 6).}]{results/grid/breakit/orientations/orientations_6_tradeoff.png}}
+\caption{Figure 2. Example break-it tradeoff (orientations = 6).}
+\end{figure}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{\texorpdfstring{4. Notebook:
+\texttt{VisionExperiments.ipynb}}{4. Notebook: VisionExperiments.ipynb}}\label{notebook-visionexperiments.ipynb}
+
+\subsection{4.1 Pipeline overview}\label{pipeline-overview}
+
+\begin{quote}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Synthetic baseline on colored squares\\
+\item
+  Multi-model comparison on the synthetic task\\
+\item
+  Naturalistic baseline on real images with human similarity\\
+\item
+  Dense Associative Memory on the naturalistic benchmark\\
+\item
+  ViT vs CLIP on the Animals dataset: \textbf{layer-index} and
+  \textbf{\S{}distance-rank}
+\end{enumerate}
+\end{quote}
+
+\textbf{Notebook flags:}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3750}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3750}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meaning
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{RUN\_EXPERIMENTS} & \texttt{False} & Reload bundled JSON/PNG
+from \texttt{results/} \\
+\texttt{RUN\_EXPERIMENTS} & \texttt{True} & Regenerate into the same
+paths (slow on CPU) \\
+\texttt{QUICK\_MODE} & use with live runs & Smaller grids: synthetic
+caps; DAM quick = animals only, 1 stage-A config \\
+\texttt{QUICK\_MODE=False} (DAM live) & --- & All three categories, 6
+stage-A configs, stage B skipped, 1 seed, storage 40, ViT+CLIP \\
+\end{longtable}
+
+\subsection{4.2 Identification corruption
+protocol}\label{identification-corruption-protocol}
+
+Tracks 1--4 (synthetic baseline, model comparison, naturalistic
+baseline, naturalistic DAM) share a \textbf{stacked} identification
+protocol:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Component & Setting \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Pixels & noise (std = 5) + shift (\(\leq\) 2 px) + 50\% occlusion \\
+Retrieval scores & decision noise std = 0.01 on ident trials only \\
+\end{longtable}
+
+\subsection{4.3 Stage 1: Synthetic
+baseline}\label{stage-1-synthetic-baseline}
+
+Colored squares at random positions; layerwise ViT features; cosine
+retrieval. Produces a line plot of identification vs generalization
+accuracy across transformer layers. Early debugging found that z-score
+normalization on tiny synthetic batches broke ident sanity checks;
+switching to \textbf{L2-only} normalization fixed that.
+
+\subsection{4.4 Stage 2: Model comparison (color vs
+location)}\label{stage-2-model-comparison-color-vs-location}
+
+What if only color or only location varies? Three task modes are swept
+per backbone:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{mixed\_color\_position} (both vary)
+\item
+  \texttt{color\_only} (square fixed position, color jitter)
+\item
+  \texttt{position\_only} (fixed color, position varies)
+\end{itemize}
+
+Backbones in the bundled summary: ViT, CLIP ViT, ConvNeXt. The notebook
+plots best-generalization, best-identification, and best-margin configs
+per model in ident/gen space.
+
+\begin{quote}
+Synthetic model-comparison summary from
+{\ttfamily\nolinkurl{results/vision/model\_comparison/}}. Each backbone contributes
+three highlighted configs: best generalization, best identification, and
+best margin.
+\end{quote}
+
+\subsection{4.5 Stage 3: Naturalistic
+baseline}\label{stage-3-naturalistic-baseline}
+
+Peterson dataset: real photos plus a human similarity matrix per
+category (fruits, vegetables, animals). Generalization accuracy =
+percent of probes where retrieval picks the stored image with
+\textbf{highest human-rated similarity}. Vegetables uses
+\texttt{required\_exemplars\ =\ 3} internally so leave-one-exemplar-out
+folds stay balanced.
+
+\begin{quote}
+Real-image retrieval with human similarity for generalization.
+Identification probes use stacked \texttt{noise\_shift\_occlusion} plus
+decision noise.
+\end{quote}
+
+\subsection{4.6 Stage 4: Naturalistic DAM (ViT vs
+CLIP)}\label{stage-4-naturalistic-dam-vit-vs-clip}
+
+Same task definitions as baseline, but features pass through DAM with a
+small config search.
+
+The notebook bar chart reads \texttt{vit\_vs\_clip\_head\_to\_head.json}
+and plots \textbf{gen accuracy delta} (DAM minus baseline) for matched
+ViT vs CLIP branches. There are \textbf{seven} branch pairs (category ×
+pooling × \texttt{anchor\_kind}, where \texttt{anchor\_kind} is
+\texttt{retrieval} or \texttt{alignment}), so labels like
+\texttt{animals-mean\_tokens} can appear twice when retrieval and
+alignment anchors differ.
+
+\begin{quote}
+Gen accuracy delta = DAM minus baseline on the human-similarity
+generalization task (\% of probes where retrieval picks the human-rated
+best stored match; positive = DAM helps).
+\end{quote}
+
+\subsection{4.7 Stage 5: ViT vs CLIP on Animals
+dataset}\label{stage-5-vit-vs-clip-on-animals-dataset}
+
+Two views of the same metrics on the animals category only:
+
+\textbf{layer-index:} points connected in transformer layer order;
+labels \texttt{L0}\ldots{}\texttt{L11}. Reload from
+{\ttfamily\nolinkurl{results/image\_transformers/\{setting\}}/}.
+
+\textbf{distance-rank:} same axes, but points ordered by ascending mean
+pairwise cosine distance among stored features; labels
+\texttt{R0}\ldots{}\texttt{R11}. Reload from
+{\ttfamily\nolinkurl{results/image\_transformers\_similarity\_ordered\_fixed/\{setting\}}/}.
+
+Six settings: \texttt{easy\_s40}, \texttt{easy\_s80},
+\texttt{occ50\_s40}, \texttt{occ50\_s80},
+\texttt{occ50\_dnoise001\_s40}, \texttt{occ50\_dnoise001\_s80}. Each
+folder has five PNGs: baseline plus DAM orders (n = 2, 4, 6, 8).
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 3. occ50\_s40 baseline, layer-index order.}]{results/image_transformers/occ50_s40/baseline_layers_gen_vs_ident.png}}
+\caption{Figure 3. occ50\_s40 baseline, layer-index order.}
+\end{figure}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 4. occ50\_s40 baseline, distance-rank order.}]{results/image_transformers_similarity_ordered_fixed/occ50_s40/baseline_layers_gen_vs_ident_ordered_by_distance.png}}
+\caption{Figure 4. occ50\_s40 baseline, distance-rank order.}
+\end{figure}
+
+\begin{quote}
+Same axes as \S{}5A, but point sequence follows \textbf{ascending mean
+pairwise cosine distance} (stored-feature geometry).
+\end{quote}
+
+Thereordering is \textbf{visualization only}; it does not change the
+underlying metrics (see
+{\ttfamily\nolinkurl{results/image\_transformers\_similarity\_ordered\_fixed/overall\_insights.md}}).
+The reordering is just a different view of the same layerwise
+represenation geometry.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{5. Results summary}\label{results-summary}
+
+\subsection{5.1 Grid (multiscale)}\label{grid-multiscale}
+
+On the grid task the ident/gen tradeoff is clear: generalization peaks
+near $c \approx 1.65$, identification rises with larger $c$. Break-it
+sweeps show how encoder parameters shift that optimum.
+
+\subsection{5.2 Vision: synthetic}\label{vision-synthetic}
+
+Synthetic colored squares were useful for debugging.
+
+\begin{itemize}
+\tightlist
+\item
+  After the L2-only preprocessing fix, sanity checks passed.
+\item
+  No convincing ident/gen tradeoff appeared on synthetic features.
+\item
+  Color was easy; position was weaker.
+\item
+  Swapping backbone (ViT, DeiT, ConvNeXt, ResNet, CLIP) did not fix it.
+\item
+  Splitting \textbf{color-only} vs \textbf{position-only} tasks showed
+  color dominating; position alone was especially weak.
+\end{itemize}
+
+So the synthetic distribution (colored squares at random locations) is
+probably too unusual relative to ImageNet pretraining, which matches
+your intution from email.
+
+\subsection{5.3 Vision: naturalistic
+baseline}\label{vision-naturalistic-baseline}
+
+Moving to Peterson images changed everything. Across fruits, vegetables,
+and animals:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Late layers} gave the best retrieval accuracy.
+\item
+  \textbf{Mid layers} gave the best alignment with human similarity
+  (Spearman correlation between model RDM and human RDM).
+\end{itemize}
+
+Best baseline generalization (ViT, bundled notebook regen, stacked ident
+protocol):
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Category & Best ViT gen accuracy \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Fruits & 55.0\% \\
+Vegetables & 53.8\% \\
+Animals & 65.0\% \\
+\end{longtable}
+
+(CLIP image-tower retrieval peaks slightly higher on fruits at 57.5\%;
+see 5.4.)
+
+Best human-alignment Spearman (ViT mid-layer rows, not layer 11):
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Category & human\_rdm\_spearman \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Fruits & 0.379 \\
+Vegetables & 0.462 \\
+Animals & 0.423 \\
+\end{longtable}
+
+Retrieval and alignment \textbf{do not peak at the same layer}. \#\#\#
+5.4 CLIP as encoder (image only)
+
+CLIP (ViT image tower, no text) boosted alignment a lot:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Category & Best CLIP alignment \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Fruits & 0.580 \\
+Vegetables & 0.494 \\
+Animals & 0.550 \\
+\end{longtable}
+
+But ViT still owned the strongest top retrieval rows. \textbf{ViT for
+retrieval, CLIP for alignment.}
+
+\subsection{5.5 DAM on naturalistic
+features}\label{dam-on-naturalistic-features}
+
+After baseline retrieval on real Peterson images, DAM was applied on top
+of those features. This section summarizes whether that heled retrieval
+in generalization and whether ViT or CLIP was the better backbone.
+
+DAM helped unevenly. Numbers below come from the \textbf{capped notebook
+regen} in {\ttfamily\nolinkurl{results/vision/naturalistic\_dam/}}. A separate full
+CLI sweep can explore larger config grids.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2703}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7297}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Category
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+DAM story (bundled regen)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Fruits & 0 qualifying wins; raw gen deltas up to +7.5 pp (CLIP
+\texttt{mean\_tokens} retrieval) but probe-RDM alignment drops \\
+Vegetables & 0 qualifying wins; raw deltas up to +7.7 pp (ViT
+\texttt{mean\_tokens} retrieval) with modest alignment lift \\
+Animals & 6 qualifying wins; best clean branch 52.5\% → 55.0\% gen (+2.5
+pp, ViT \texttt{cls} retrieval, layer 11) \\
+\end{longtable}
+
+Head-to-head gen deltas (same capped run):
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Branch & ViT Δgen & CLIP Δgen \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+animals cls retrieval & +2.5 pp & +2.5 pp \\
+animals mean\_tokens retrieval & +2.5 pp & +1.2 pp \\
+animals mean\_tokens alignment & −1.2 pp & −1.3 pp \\
+fruits mean\_tokens retrieval & +2.5 pp & \textbf{+7.5 pp} \\
+vegetables mean\_tokens retrieval & \textbf{+7.7 pp} & +5.1 pp \\
+\end{longtable}
+
+So animals shows the most \textbf{stable} DAM wins under the qualifying
+rule (improves generalization without breaking memory or geometry).
+
+Matched ViT vs CLIP under DAM: \textbf{ViT wins on vegetables and
+animals retrieval branches}; \textbf{CLIP wins on fruits
+\texttt{mean\_tokens} retrieval}.
+
+\subsection{5.6 Grid vs vision
+(comparison)}\label{grid-vs-vision-comparison}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.0714}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4286}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Grid track
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Vision track
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Stimulus & Synthetic 2D points & Colored squares, then real photos \\
+Features & GridEncoder & ViT / CLIP / ConvNeXt layers \\
+Gen target & Nearest stored in 2D & Task similarity or human
+similarity \\
+Ident/gen tradeoff? & \textbf{Yes} (multiscale sweep) & \textbf{No} on
+synthetic; different story on naturalistic \\
+Main positive result & $c \approx \sqrt{e}$ gen peak & Retrieval vs
+alignment split; DAM on animals \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{6. Reproducibility}\label{reproducibility}
+
+All handoff code, data, and bundled outputs sit under \texttt{handoff/}.
+Setup:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ handoff}
+\ExtensionTok{python} \AttributeTok{{-}m}\NormalTok{ venv .venv}
+\BuiltInTok{source}\NormalTok{ .venv/bin/activate}
+\ExtensionTok{pip}\NormalTok{ install }\AttributeTok{{-}r}\NormalTok{ requirements.txt}
+\end{Highlighting}
+\end{Shaded}
+
+Verify the package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{pytest} \AttributeTok{{-}q}
+\ExtensionTok{python}\NormalTok{ scripts/verify\_artifacts.py}
+\ExtensionTok{python}\NormalTok{ scripts/bootstrap\_standalone.py}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Notebooks to open} (kernel cwd = \texttt{handoff/} or
+\texttt{handoff/notebooks/}):
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{notebooks/GridDAM.ipynb}
+\item
+  \texttt{notebooks/VisionExperiments.ipynb}
+\end{itemize}
+
+\textbf{Bundled results} live in \texttt{results/} with checksums in
+{\ttfamily\nolinkurl{results/MANIFEST.json}}. With \texttt{RUN\_EXPERIMENTS\ =\ False}
+(vision) or \texttt{LOAD\_EXISTING\ =\ True} (grid multiscale),
+notebooks reload those files without rerunning sweeps.
+
+\textbf{PDF export} (Pandoc + memoir + Tectonic):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bash}\NormalTok{ latex\_exports/compile\_memo.sh}
+\end{Highlighting}
+\end{Shaded}
+
+Output: \texttt{latex\_exports/pdf/REPORT.pdf}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{7. Scripts reference}\label{scripts-reference}
+
+\subsection{7.1 Grid scripts}\label{grid-scripts}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.32}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.36}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.32}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Script
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Purpose \& key arguments
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default output
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+{\ttfamily run\_\allowbreak grid\_\allowbreak multiscale.py} & Part 4 multiscale sweep.
+\texttt{-\/-quick}, \texttt{-\/-scale-min}, \texttt{-\/-scale-max},
+\texttt{-\/-n-values}, \texttt{-\/-k-values}, encoder/DAM hyperparams &
+{\ttfamily\nolinkurl{results/grid/multiscale/}} \\
+{\ttfamily run\_\allowbreak grid\_\allowbreak breakit.py} & Part 4b sensitivity.
+\texttt{-\/-experiment} (orientations, base\_freq, modules, cells,
+distributions, all), \texttt{-\/-quick} &
+{\ttfamily\nolinkurl{results/grid/breakit/}} \\
+\end{longtable}
+
+Example quick smoke:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ handoff}
+\BuiltInTok{source}\NormalTok{ .venv/bin/activate}
+\ExtensionTok{python}\NormalTok{ scripts/run\_grid\_multiscale.py }\AttributeTok{{-}{-}quick}
+\ExtensionTok{python}\NormalTok{ scripts/run\_grid\_breakit.py }\AttributeTok{{-}{-}experiment}\NormalTok{ orientations }\AttributeTok{{-}{-}quick}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{7.2 Vision scripts}\label{vision-scripts}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.32}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.36}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.32}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Script
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Purpose \& key arguments
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default output
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+{\ttfamily run\_\allowbreak vision\_\allowbreak synthetic.py} & Synthetic baseline.
+\texttt{-\/-task-mode} (mixed, color\_only, position\_only),
+\texttt{-\/-quick}, \texttt{-\/-device} &
+{\ttfamily\nolinkurl{results/vision/synthetic/}} \\
+{\ttfamily run\_\allowbreak vision\_\allowbreak model\_\allowbreak comparison.py} & Multi-backbone synthetic
+sweep. \texttt{-\/-models} (or quick ViT-only), \texttt{-\/-device} &
+{\ttfamily\nolinkurl{results/vision/model\_comparison/}} \\
+{\ttfamily run\_\allowbreak vision\_\allowbreak naturalistic\_\allowbreak baseline.py} & Peterson baseline.
+\texttt{-\/-category} (fruits, vegetables, animals),
+\texttt{-\/-include-clip}, \texttt{-\/-quick} &
+{\ttfamily\nolinkurl{results/vision/naturalistic/}} \\
+{\ttfamily run\_\allowbreak vision\_\allowbreak naturalistic\_\allowbreak dam.py} & DAM on naturalistic
+features. \texttt{-\/-category}, \texttt{-\/-baseline-dir},
+\texttt{-\/-max-stage-a-configs}, \texttt{-\/-quick} &
+{\ttfamily\nolinkurl{results/vision/naturalistic\_dam/}} \\
+{\ttfamily run\_\allowbreak vision\_\allowbreak animals\_\allowbreak graphs.py} & \S{}5A graph regen.
+\texttt{-\/-max-settings}, \texttt{-\/-max-seeds},
+\texttt{-\/-max-layers}, \texttt{-\/-quick} &
+{\ttfamily\nolinkurl{results/image\_transformers/}} \\
+{\ttfamily run\_\allowbreak vision\_\allowbreak animals\_\allowbreak similarity\_\allowbreak ordered.py} & \S{}5B step 1. Same
+caps as graphs script &
+{\ttfamily\nolinkurl{results/image\_transformers\_similarity\_ordered/}} \\
+{\ttfamily run\_\allowbreak vision\_\allowbreak animals\_\allowbreak similarity\_\allowbreak ordered\_\allowbreak fixed.py} & \S{}5B step
+2 reorder plots. \texttt{-\/-input-dir}, \texttt{-\/-output-dir} &
+{\ttfamily\nolinkurl{results/image\_transformers\_similarity\_ordered\_fixed/}} \\
+\end{longtable}
+
+Example vision smoke:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{python}\NormalTok{ scripts/run\_vision\_synthetic.py }\AttributeTok{{-}{-}quick}
+\ExtensionTok{python}\NormalTok{ scripts/run\_vision\_model\_comparison.py }\AttributeTok{{-}{-}models}\NormalTok{ vit\_base\_patch16\_224}
+\ExtensionTok{python}\NormalTok{ scripts/run\_vision\_naturalistic\_baseline.py }\AttributeTok{{-}{-}category}\NormalTok{ fruits }\AttributeTok{{-}{-}quick}
+\end{Highlighting}
+\end{Shaded}
+
+Full naturalistic DAM (slow):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{python}\NormalTok{ scripts/run\_vision\_naturalistic\_baseline.py }\AttributeTok{{-}{-}category}\NormalTok{ animals }\AttributeTok{{-}{-}include{-}clip}
+\ExtensionTok{python}\NormalTok{ scripts/run\_vision\_naturalistic\_dam.py }\AttributeTok{{-}{-}category}\NormalTok{ animals}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\backmatter
+\end{document}

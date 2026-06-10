@@ -1,0 +1,44 @@
+[
+  {
+    "setting_value": "0.3",
+    "optimum_c": 1.7333333333333334,
+    "gen_accuracy": 67.55555555555556,
+    "ident_accuracy": 85.0
+  },
+  {
+    "setting_value": "0.5",
+    "optimum_c": 1.4190476190476191,
+    "gen_accuracy": 53.77777777777777,
+    "ident_accuracy": 92.22222222222221
+  },
+  {
+    "setting_value": "0.7",
+    "optimum_c": 1.4190476190476191,
+    "gen_accuracy": 42.888888888888886,
+    "ident_accuracy": 96.11111111111113
+  },
+  {
+    "setting_value": "1.0",
+    "optimum_c": 1.2095238095238094,
+    "gen_accuracy": 31.555555555555557,
+    "ident_accuracy": 92.22222222222223
+  },
+  {
+    "setting_value": "1.3",
+    "optimum_c": 1.2095238095238094,
+    "gen_accuracy": 27.777777777777775,
+    "ident_accuracy": 93.8888888888889
+  },
+  {
+    "setting_value": "1.5",
+    "optimum_c": 1.2095238095238094,
+    "gen_accuracy": 25.333333333333332,
+    "ident_accuracy": 96.66666666666667
+  },
+  {
+    "setting_value": "1.7",
+    "optimum_c": 1.2095238095238094,
+    "gen_accuracy": 23.11111111111111,
+    "ident_accuracy": 98.8888888888889
+  }
+]

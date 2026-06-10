@@ -1,0 +1,9 @@
+[project]
+name = "memgrid-handoff"
+version = "0.1.0"
+description = "Self-contained handoff package for grid DAM and vision retrieval experiments"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["..", "."]

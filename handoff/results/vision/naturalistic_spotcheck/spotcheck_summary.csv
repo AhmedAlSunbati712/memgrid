@@ -1,0 +1,5 @@
+category,corruption_label,decision_noise_std,best_gen_layer,best_gen_ident_accuracy,best_gen_accuracy,best_align_layer,best_align_ident_accuracy,best_align_accuracy,preview_path
+animals,noise30_shift16_dnoise0,0.0,layer_11,100.0,70.0,layer_6,95.0,22.5,results/vision/naturalistic_spotcheck/animals_vit_only_noise30_shift16/previews/animals_noise30_shift16_dnoise0.png
+animals,occ0.5_dnoise0,0.0,layer_11,90.0,70.0,layer_6,100.0,22.5,results/vision/naturalistic_spotcheck/animals_vit_only_occlusion50/previews/animals_occ0.5_dnoise0.png
+animals,occ0.5_dnoise0.01,0.01,layer_11,67.5,65.0,layer_6,72.5,11.25,results/vision/naturalistic_spotcheck/animals_vit_only_occlusion50_dnoise001/previews/animals_occ0.5_dnoise0.01.png
+fruits,occ0.5_dnoise0,0.0,layer_11,80.0,47.5,layer_6,100.0,7.5,results/vision/naturalistic_spotcheck/fruits_vit_only_occlusion50/previews/fruits_occ0.5_dnoise0.png

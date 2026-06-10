@@ -1,0 +1,11 @@
+kind,setting_name,model_name,dam_n,ident_vs_distance_spearman,gen_vs_distance_spearman,best_gen_layer,best_gen_distance,best_gen_tercile,classification
+baseline,occ50_dnoise001_s80,vit_base_patch16_224,,0.9440559440559443,0.8951048951048951,layer_11,0.11877556546034522,high,tradeoff_partial
+baseline,occ50_dnoise001_s80,vit_base_patch16_clip_224.openai,,0.6923076923076924,0.8951048951048951,layer_11,0.44180558684802873,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_224,2,0.6083916083916086,0.9300699300699302,layer_11,0.11877556546034522,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_224,4,0.6223776223776225,0.9300699300699302,layer_11,0.11877556546034522,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_224,6,0.6223776223776225,0.9300699300699302,layer_11,0.11877556546034522,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_224,8,0.6223776223776225,0.9440559440559443,layer_11,0.11877556546034522,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_clip_224.openai,2,0.35664335664335667,0.2797202797202798,layer_11,0.44180558684802873,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_clip_224.openai,4,0.35664335664335667,0.2797202797202798,layer_11,0.44180558684802873,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_clip_224.openai,6,0.35664335664335667,0.2797202797202798,layer_11,0.44180558684802873,high,tradeoff_partial
+dam,occ50_dnoise001_s80,vit_base_patch16_clip_224.openai,8,0.35664335664335667,0.2797202797202798,layer_11,0.44180558684802873,high,tradeoff_partial

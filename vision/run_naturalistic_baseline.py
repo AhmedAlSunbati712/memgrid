@@ -63,14 +63,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--storage-sizes", nargs="*", type=int, default=None)
     parser.add_argument("--n-seeds", type=int, default=5)
     parser.add_argument("--include-clip", action="store_true")
-    parser.add_argument("--corruption-mode", default="noise_shift")
+    parser.add_argument("--corruption-mode", default="noise_shift_occlusion")
     parser.add_argument("--noise-std", type=float, default=5.0)
     parser.add_argument("--max-shift", type=int, default=2)
-    parser.add_argument("--occlusion-frac", type=float, default=0.3)
+    parser.add_argument("--occlusion-frac", type=float, default=0.5)
     parser.add_argument("--mask-frac", type=float, default=0.3)
     parser.add_argument("--n-chunks", type=int, default=6)
     parser.add_argument("--affine-strength", type=float, default=0.05)
-    parser.add_argument("--decision-noise-std", type=float, default=0.0)
+    parser.add_argument("--decision-noise-std", type=float, default=0.01)
     parser.add_argument("--save-preview", action="store_true")
     return parser.parse_args()
 
@@ -155,6 +155,8 @@ def _corruption_label(
 ) -> str:
     if corruption_mode == "noise_shift":
         base = f"noise{noise_std:g}_shift{max_shift}"
+    elif corruption_mode == "noise_shift_occlusion":
+        base = f"noise{noise_std:g}_shift{max_shift}_occ{occlusion_frac:g}"
     elif corruption_mode == "occlusion":
         base = f"occ{occlusion_frac:g}"
     elif corruption_mode == "multi_cutout":
@@ -358,14 +360,14 @@ def run_naturalistic_baseline(
     storage_sizes: list[int] | None = None,
     n_seeds: int = 5,
     model_specs: tuple[tuple[str, str], ...] | None = None,
-    corruption_mode: str = "noise_shift",
+    corruption_mode: str = "noise_shift_occlusion",
     noise_std: float = 5.0,
     max_shift: int = 2,
-    occlusion_frac: float = 0.3,
+    occlusion_frac: float = 0.5,
     mask_frac: float = 0.3,
     n_chunks: int = 6,
     affine_strength: float = 0.05,
-    decision_noise_std: float = 0.0,
+    decision_noise_std: float = 0.01,
     save_preview: bool = False,
 ) -> dict[str, object]:
     output_dir.mkdir(parents=True, exist_ok=True)

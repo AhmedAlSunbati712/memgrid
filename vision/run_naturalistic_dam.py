@@ -19,9 +19,9 @@ from vision import (
     build_identification_task,
     evaluate_layerwise_baseline,
     load_naturalistic_category,
-    perturb_image,
     subset_feature_bundle,
 )
+from vision.ident_corruption import IDENT_DECISION_NOISE_STD, corrupt_ident_probe
 from vision.naturalistic_dam import (
     STAGE_A_CONFIGS,
     STAGE_B_CONFIGS,
@@ -204,7 +204,7 @@ def run_naturalistic_dam(
         clean_features = prep.fit_transform(raw_features)
         clean_reextract_features = prep.transform(wrapper.extract(images, batch_size=batch_size))
         noisy_images = [
-            perturb_image(image, noise_std=5.0, max_shift=2, seed=seed + 1000 + idx)
+            corrupt_ident_probe(image, seed=seed + 1000 + idx)
             for idx, image in enumerate(images)
         ]
         noisy_features = prep.transform(wrapper.extract(noisy_images, batch_size=batch_size))
@@ -235,6 +235,8 @@ def run_naturalistic_dam(
                 noisy_probe_bundle,
                 ident_task.ground_truth_idx,
                 metric="cosine",
+                decision_noise_std=IDENT_DECISION_NOISE_STD,
+                decision_noise_seed=seed + split_seed + 8000,
             )
             gen_baseline = evaluate_layerwise_baseline(
                 stored_feature_bundle,
@@ -288,6 +290,7 @@ def run_naturalistic_dam(
                         concepts=data.concepts,
                         config=config,
                         seed=seed + split_seed * 10000,
+                        decision_noise_std=IDENT_DECISION_NOISE_STD,
                     )
                     row = dict(base_row)
                     row.update(dam)
@@ -318,7 +321,7 @@ def run_naturalistic_dam(
             clean_features = prep.fit_transform(raw_features)
             clean_reextract_features = prep.transform(wrapper.extract(images, batch_size=batch_size))
             noisy_images = [
-                perturb_image(image, noise_std=5.0, max_shift=2, seed=seed + 1000 + idx)
+                corrupt_ident_probe(image, seed=seed + 1000 + idx)
                 for idx, image in enumerate(images)
             ]
             noisy_features = prep.transform(wrapper.extract(noisy_images, batch_size=batch_size))
@@ -334,7 +337,14 @@ def run_naturalistic_dam(
                 clean_probe_bundle = subset_feature_bundle(clean_reextract_features, ident_task.probe_indices)
                 noisy_probe_bundle = subset_feature_bundle(noisy_features, ident_task.probe_indices)
                 gen_probe_bundle = subset_feature_bundle(clean_features, gen_task.probe_indices)
-                ident_baseline = evaluate_layerwise_baseline(stored_feature_bundle, noisy_probe_bundle, ident_task.ground_truth_idx, metric="cosine")
+                ident_baseline = evaluate_layerwise_baseline(
+                    stored_feature_bundle,
+                    noisy_probe_bundle,
+                    ident_task.ground_truth_idx,
+                    metric="cosine",
+                    decision_noise_std=IDENT_DECISION_NOISE_STD,
+                    decision_noise_seed=seed + split_seed + 8000,
+                )
                 gen_baseline = evaluate_layerwise_baseline(stored_feature_bundle, gen_probe_bundle, gen_task.ground_truth_idx, metric="cosine")
                 gen_extra = _baseline_generalization_extras(
                     baseline_row=gen_baseline[layer],
@@ -357,6 +367,7 @@ def run_naturalistic_dam(
                         concepts=data.concepts,
                         config=config,
                         seed=seed + split_seed * 10000 + 500000,
+                        decision_noise_std=IDENT_DECISION_NOISE_STD,
                     )
                     row = {
                         "category": category,
